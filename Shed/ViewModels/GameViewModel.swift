@@ -249,16 +249,14 @@ final class GameViewModel: ObservableObject {
             return
         }
 
-        // Hand phase: select/deselect entire hand slot group
-        let group = state.player.handSlotGroup(for: card)
-        let allSelected = group.allSatisfy { selectedCards.contains($0.id) }
-        if allSelected {
-            group.forEach { selectedCards.remove($0.id) }
+        // Hand phase: individual card selection (same rank only)
+        if selectedCards.contains(card.id) {
+            selectedCards.remove(card.id)
         } else {
-            if let first = selectedCardsList.first, first.rank != group.first!.rank {
-                selectedCards = Set(group.map(\.id))
+            if let first = selectedCardsList.first, first.rank != card.rank {
+                selectedCards = [card.id]
             } else {
-                group.forEach { selectedCards.insert($0.id) }
+                selectedCards.insert(card.id)
             }
         }
         HapticManager.tap()
