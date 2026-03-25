@@ -57,6 +57,7 @@
 "swap.table_cards"     = "桌面牌（明牌）";
 "swap.your_hand"       = "你的手牌";
 "swap.ready"           = "准备好了——开始游戏";
+"swap.tap_to_separate" = "再次点击 → 分离";
 "swap.always_playable" = "总是可出";
 "swap.forces_low"      = "强制低牌";
 "swap.burns_pile"      = "燃烧牌堆";

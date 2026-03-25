@@ -46,6 +46,7 @@ struct GameState: Codable {
 
         var player = PlayerState(hand: ph,  faceUp: pfu, faceDown: pfd)
         player.initFaceUpSlots()
+        player.initHandSlots()
         var ai     = PlayerState(hand: ah,  faceUp: afu, faceDown: afd)
         ai.initFaceUpSlots()
 

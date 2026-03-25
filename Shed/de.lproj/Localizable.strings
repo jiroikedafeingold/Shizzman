@@ -57,6 +57,7 @@
 "swap.table_cards"     = "TISCHKARTEN (aufgedeckt)";
 "swap.your_hand"       = "DEINE HAND";
 "swap.ready"           = "Bereit — Spiel starten";
+"swap.tap_to_separate" = "Erneut tippen → trennen";
 "swap.always_playable" = "Immer spielbar";
 "swap.forces_low"      = "Zwingt niedrig";
 "swap.burns_pile"      = "Stapel verbrennen";

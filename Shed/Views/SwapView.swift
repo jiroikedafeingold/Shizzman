@@ -5,8 +5,8 @@ struct SwapView: View {
     @ObservedObject var vm: GameViewModel
 
     /// Index into faceUpSlots of the currently selected table slot (nil = none).
-    @State private var selectedSlotIdx: Int? = nil
-    @State private var selectedHandCard: GameCard? = nil
+    @State private var selectedSlotIdx:     Int? = nil
+    @State private var selectedHandSlotIdx: Int? = nil
 
     var body: some View {
         VStack(spacing: 0) {
@@ -35,7 +35,7 @@ struct SwapView: View {
                 HStack(spacing: 10) {
                     ForEach(Array(vm.state.player.faceUpSlots.enumerated()), id: \.offset) { idx, slot in
                         VStack(spacing: 4) {
-                            slotView(slot: slot, slotIdx: idx)
+                            slotView(slot: slot, isSelected: selectedSlotIdx == idx)
                                 .onTapGesture { tapSlot(idx) }
                             // Hint shown when a grouped slot is selected
                             if selectedSlotIdx == idx && slot.count > 1 {
@@ -74,7 +74,7 @@ struct SwapView: View {
             }
             .padding(.vertical, 14)
 
-            // Hand
+            // Hand — shown as grouped slots, same style as table cards
             VStack(alignment: .leading, spacing: 6) {
                 Text(L10n.Swap.yourHand)
                     .font(Theme.caption(10))
@@ -83,26 +83,29 @@ struct SwapView: View {
                     .padding(.leading, 4)
 
                 HStack(spacing: 10) {
-                    ForEach(vm.state.player.hand.sorted { $0.rank < $1.rank }) { card in
-                        CardView(card: card, isSelected: selectedHandCard == card)
-                            .overlay(
-                                RoundedRectangle(cornerRadius: Theme.rSm)
-                                    .strokeBorder(
-                                        selectedHandCard == card ? Theme.hint : Color.clear,
-                                        lineWidth: 2
-                                    )
-                            )
-                            .overlay(alignment: .topTrailing) {
-                                if joinBadgeVisible(for: card) {
-                                    Image(systemName: "link")
-                                        .font(.system(size: 9, weight: .semibold))
-                                        .foregroundStyle(.white)
-                                        .padding(3)
-                                        .background(Circle().fill(Theme.hint))
-                                        .offset(x: 4, y: -4)
+                    ForEach(Array(vm.state.player.handSlots.enumerated()), id: \.offset) { idx, slot in
+                        VStack(spacing: 4) {
+                            slotView(slot: slot, isSelected: selectedHandSlotIdx == idx)
+                                .overlay(alignment: .topLeading) {
+                                    if handSlotJoinBadgeVisible(for: slot) {
+                                        Image(systemName: "link")
+                                            .font(.system(size: 9, weight: .semibold))
+                                            .foregroundStyle(.white)
+                                            .padding(3)
+                                            .background(Circle().fill(Theme.hint))
+                                            .offset(x: -4, y: -4)
+                                    }
                                 }
+                                .onTapGesture { tapHandSlot(idx) }
+                            // Hint shown when a grouped hand slot is selected
+                            if selectedHandSlotIdx == idx && slot.count > 1 {
+                                Text(L10n.Swap.tapToSeparate)
+                                    .font(Theme.caption(9))
+                                    .foregroundStyle(Theme.secondary)
+                                    .transition(.opacity.combined(with: .scale(scale: 0.9)))
                             }
-                            .onTapGesture { tapHand(card) }
+                        }
+                        .animation(.easeInOut(duration: 0.15), value: selectedHandSlotIdx == idx)
                     }
                 }
                 .padding(.vertical, 16)
@@ -140,12 +143,11 @@ struct SwapView: View {
         }
     }
 
-    // MARK: - Slot view
+    // MARK: - Slot view (shared by table cards and hand slots)
 
-    /// Renders a face-up slot: stacked card silhouettes behind the top card, plus a count badge.
+    /// Renders a card slot: stacked card silhouettes behind the top card, plus a count badge.
     @ViewBuilder
-    private func slotView(slot: [GameCard], slotIdx: Int) -> some View {
-        let isSelected = selectedSlotIdx == slotIdx
+    private func slotView(slot: [GameCard], isSelected: Bool) -> some View {
         ZStack(alignment: .topTrailing) {
             // Stacked shadow cards behind (offset for depth)
             ZStack {
@@ -193,18 +195,22 @@ struct SwapView: View {
         HapticManager.tap()
 
         let slot = vm.state.player.faceUpSlots[idx]
-        let rep  = slot.first!          // representative card for rank comparison
+        let rep  = slot.first!
 
-        if let hc = selectedHandCard {
-            // Hand card already selected
-            if hc.rank == rep.rank {
-                vm.joinHandCardToFaceUpSlot(handCard: hc, tableCard: rep)
-            } else if slot.count == 1 {
-                vm.swapPlayerCards(handCard: hc, faceUpCard: rep)
+        if let handSlotIdx = selectedHandSlotIdx {
+            // Hand slot was selected — interact with this table slot
+            guard handSlotIdx < vm.state.player.handSlots.count else {
+                selectedHandSlotIdx = nil; return
             }
-            // multi-card slot + different rank → no action
-            selectedHandCard = nil
-            selectedSlotIdx  = nil
+            let handSlot = vm.state.player.handSlots[handSlotIdx]
+            let handRep  = handSlot.first!
+            if handRep.rank == rep.rank {
+                vm.joinHandSlotToFaceUpSlot(handCard: handRep, tableCard: rep)
+            } else if slot.count == 1 && handSlot.count == 1 {
+                vm.swapPlayerCards(handCard: handRep, faceUpCard: rep)
+            }
+            selectedHandSlotIdx = nil
+            selectedSlotIdx     = nil
 
         } else if let prevIdx = selectedSlotIdx {
             let prevSlot = vm.state.player.faceUpSlots[prevIdx]
@@ -222,42 +228,81 @@ struct SwapView: View {
             } else {
                 // Different rank → switch selection to this slot
                 selectedSlotIdx = idx
+                selectedHandSlotIdx = nil
             }
         } else {
             selectedSlotIdx = idx
+            selectedHandSlotIdx = nil
         }
     }
 
-    private func tapHand(_ card: GameCard) {
+    private func tapHandSlot(_ idx: Int) {
+        guard idx < vm.state.player.handSlots.count else { return }
         HapticManager.tap()
 
-        if let idx = selectedSlotIdx, idx < vm.state.player.faceUpSlots.count {
-            let slot = vm.state.player.faceUpSlots[idx]
-            let rep  = slot.first!
-            if card.rank == rep.rank {
-                vm.joinHandCardToFaceUpSlot(handCard: card, tableCard: rep)
-            } else if slot.count == 1 {
-                vm.swapPlayerCards(handCard: card, faceUpCard: rep)
+        let handSlot = vm.state.player.handSlots[idx]
+        let handRep  = handSlot.first!
+
+        if let tableIdx = selectedSlotIdx, tableIdx < vm.state.player.faceUpSlots.count {
+            // Table slot was selected — interact with this hand slot
+            let tableSlot = vm.state.player.faceUpSlots[tableIdx]
+            let tableRep  = tableSlot.first!
+            if handRep.rank == tableRep.rank {
+                vm.joinHandSlotToFaceUpSlot(handCard: handRep, tableCard: tableRep)
+            } else if tableSlot.count == 1 && handSlot.count == 1 {
+                vm.swapPlayerCards(handCard: handRep, faceUpCard: tableRep)
             }
-            selectedHandCard = nil
-            selectedSlotIdx  = nil
+            selectedHandSlotIdx = nil
+            selectedSlotIdx     = nil
+
+        } else if let prevIdx = selectedHandSlotIdx {
+            guard prevIdx < vm.state.player.handSlots.count else {
+                selectedHandSlotIdx = idx; return
+            }
+            let prevSlot = vm.state.player.handSlots[prevIdx]
+            let prevRep  = prevSlot.first!
+            if prevIdx == idx {
+                // Second tap: grouped hand slot → unjoin; single → deselect
+                if prevSlot.count > 1 {
+                    vm.unjoinHandSlot(handCard: prevRep)
+                }
+                selectedHandSlotIdx = nil
+            } else if prevRep.rank == handRep.rank {
+                // Same rank → join the two hand slots
+                vm.joinHandCards(prevRep, handRep)
+                selectedHandSlotIdx = nil
+            } else {
+                // Different rank → switch selection
+                selectedHandSlotIdx = idx
+                selectedSlotIdx = nil
+            }
         } else {
-            selectedHandCard = (selectedHandCard == card) ? nil : card
+            selectedHandSlotIdx = idx
+            selectedSlotIdx = nil
         }
     }
 
     // MARK: - Helpers
 
-    /// True when any hand card shares a rank with any table slot (join is possible).
+    /// True when any join is possible (hand-to-table or hand-to-hand).
     private var canJoinAnything: Bool {
         let tableRanks = Set(vm.state.player.faceUpSlots.compactMap { $0.first?.rank })
-        return vm.state.player.hand.contains { tableRanks.contains($0.rank) }
+        let handRanks  = vm.state.player.handSlots.compactMap { $0.first?.rank }
+        let canJoinToTable = handRanks.contains { tableRanks.contains($0) }
+        let canJoinInHand  = Set(handRanks).count < handRanks.count
+        return canJoinToTable || canJoinInHand
     }
 
-    /// Show a link badge on a hand card when a join is possible for it.
-    private func joinBadgeVisible(for card: GameCard) -> Bool {
+    /// Show a link badge on a hand slot when a join is possible for it.
+    private func handSlotJoinBadgeVisible(for slot: [GameCard]) -> Bool {
+        guard let rank = slot.first?.rank else { return false }
         let tableRanks = Set(vm.state.player.faceUpSlots.compactMap { $0.first?.rank })
-        return tableRanks.contains(card.rank)
+        if tableRanks.contains(rank) { return true }
+        // Check if another hand slot has the same rank
+        let otherHandRanks = vm.state.player.handSlots
+            .filter { $0.first?.id != slot.first?.id }
+            .compactMap { $0.first?.rank }
+        return otherHandRanks.contains(rank)
     }
 
     // MARK: - Legend

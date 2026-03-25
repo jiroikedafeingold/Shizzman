@@ -57,6 +57,7 @@
 "swap.table_cards"     = "КАРТЫ НА СТОЛЕ (лицом вверх)";
 "swap.your_hand"       = "ТВОЯ РУКА";
 "swap.ready"           = "Готово — начать игру";
+"swap.tap_to_separate" = "Нажмите снова → разделить";
 "swap.always_playable" = "Всегда можно сыграть";
 "swap.forces_low"      = "Принудительный низ";
 "swap.burns_pile"      = "Сжечь стопку";

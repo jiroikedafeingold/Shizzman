@@ -57,6 +57,7 @@
 "swap.table_cards"     = "テーブルカード（表向き）";
 "swap.your_hand"       = "手札";
 "swap.ready"           = "準備完了 — ゲーム開始";
+"swap.tap_to_separate" = "もう一度タップ → 分離";
 "swap.always_playable" = "いつでも出せる";
 "swap.forces_low"      = "低強制";
 "swap.burns_pile"      = "山を燃やす";

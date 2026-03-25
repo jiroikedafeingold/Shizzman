@@ -57,6 +57,7 @@
 "swap.table_cards"     = "CARTES DE TABLE (face visible)";
 "swap.your_hand"       = "VOTRE MAIN";
 "swap.ready"           = "Prêt — Commencer";
+"swap.tap_to_separate" = "Appuyer à nouveau → séparer";
 "swap.always_playable" = "Toujours jouable";
 "swap.forces_low"      = "Force bas";
 "swap.burns_pile"      = "Brûle le tas";

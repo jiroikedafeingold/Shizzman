@@ -58,6 +58,7 @@
 "swap.your_hand"       = "YOUR HAND";
 "swap.ready"           = "Ready — Start Game";
 "swap.tap_to_hand"     = "Tap again → to hand";
+"swap.tap_to_separate" = "Tap again → separate";
 "swap.always_playable" = "Always playable";
 "swap.forces_low"      = "Forces low";
 "swap.burns_pile"      = "Burns pile";

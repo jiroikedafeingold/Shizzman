@@ -57,6 +57,7 @@
 "swap.table_cards"     = "CARTAS DE MESA (boca arriba)";
 "swap.your_hand"       = "TU MANO";
 "swap.ready"           = "Listo — Comenzar";
+"swap.tap_to_separate" = "Toca de nuevo → separar";
 "swap.always_playable" = "Siempre jugable";
 "swap.forces_low"      = "Fuerza bajo";
 "swap.burns_pile"      = "Quema el mazo";

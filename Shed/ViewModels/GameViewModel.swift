@@ -71,35 +71,52 @@ final class GameViewModel: ObservableObject {
             }
         }
         state.player.sortFaceUpSlots()
+        // Sync handSlots: replace handCard with faceUpCard in its slot
+        for si in state.player.handSlots.indices {
+            if let ci = state.player.handSlots[si].firstIndex(where: { $0.id == handCard.id }) {
+                state.player.handSlots[si][ci] = faceUpCard
+                break
+            }
+        }
+        state.player.sortHandSlots()
         HapticManager.tap()
     }
 
-    /// Move a hand card into the face-up slot that contains `tableCard` (same rank required).
+    /// Move all cards in the hand slot identified by `handCard` into the face-up slot that contains `tableCard` (same rank required).
     /// Draws from the deck to restore the hand to 3.
-    func joinHandCardToFaceUpSlot(handCard: GameCard, tableCard: GameCard) {
+    func joinHandSlotToFaceUpSlot(handCard: GameCard, tableCard: GameCard) {
         guard case .swap = state.phase else { return }
         guard handCard.rank == tableCard.rank else { return }
-        guard state.player.hand.contains(where: { $0.id == handCard.id }) else { return }
-        guard let si = state.player.faceUpSlots.firstIndex(where: {
+        guard let hsi = state.player.handSlots.firstIndex(where: {
+            $0.contains { $0.id == handCard.id }
+        }) else { return }
+        guard let fsi = state.player.faceUpSlots.firstIndex(where: {
             $0.contains { $0.id == tableCard.id }
         }) else { return }
 
-        state.player.hand.removeAll { $0.id == handCard.id }
-        state.player.faceUp.append(handCard)
-        state.player.faceUpSlots[si].append(handCard)
+        let handSlot = state.player.handSlots[hsi]
+
+        // Move all hand slot cards to faceUp and into the table slot
+        for card in handSlot {
+            state.player.hand.removeAll { $0.id == card.id }
+            state.player.faceUp.append(card)
+        }
+        state.player.faceUpSlots[fsi].append(contentsOf: handSlot)
+        state.player.handSlots.remove(at: hsi)
         state.player.sortFaceUpSlots()
 
         // Refill hand from deck
         while state.player.hand.count < 3 && !state.deck.isEmpty {
-            state.player.hand.append(state.deck.removeFirst())
+            let card = state.deck.removeFirst()
+            state.player.hand.append(card)
+            state.player.handSlots.append([card])
         }
+        state.player.sortHandSlots()
         HapticManager.tap()
     }
 
-    /// Move all cards in the slot containing `tableCard` back to the hand.
-    /// The freed table slot is refilled with the best available hand card (excluding
-    /// the cards just moved). Hand may end up with more than 3 cards — that is fine;
-    /// "draw up to 3" only fires during gameplay, not the arrange phase.
+    /// Move all cards in the slot containing `tableCard` back to the hand, preserving their grouping.
+    /// The freed table slot is refilled with the best available hand card.
     func unjoinTableSlot(tableCard: GameCard) {
         guard case .swap = state.phase else { return }
         guard let si = state.player.faceUpSlots.firstIndex(where: {
@@ -107,27 +124,33 @@ final class GameViewModel: ObservableObject {
         }) else { return }
         guard state.player.faceUpSlots[si].count > 1 else { return }
 
-        let slotCards   = state.player.faceUpSlots[si]
-        let movedIDs    = Set(slotCards.map(\.id))
+        let slotCards = state.player.faceUpSlots[si]
+        let movedIDs  = Set(slotCards.map(\.id))
 
         // Remove from flat faceUp array and slots
         for card in slotCards { state.player.faceUp.removeAll { $0.id == card.id } }
         state.player.faceUpSlots.remove(at: si)
 
-        // Add to hand
+        // Add to hand — keep as a group to preserve the arrangement
         state.player.hand.append(contentsOf: slotCards)
+        if slotCards.count > 1 {
+            state.player.handSlots.append(slotCards)
+        } else {
+            state.player.handSlots.append(contentsOf: slotCards.map { [$0] })
+        }
 
         // Refill the freed table slot — pick lowest non-special card not just moved
         let candidates = state.player.hand.filter { !movedIDs.contains($0.id) }
         let moveCard = candidates.filter { !$0.isSpecial }.min(by: { $0.rank < $1.rank })
                     ?? candidates.first
         if let moveCard {
-            state.player.hand.removeAll { $0.id == moveCard.id }
+            state.player.removeCard(moveCard)
             state.player.faceUp.append(moveCard)
             state.player.faceUpSlots.append([moveCard])
         }
 
         state.player.sortFaceUpSlots()
+        state.player.sortHandSlots()
         HapticManager.tap()
     }
 
@@ -152,7 +175,7 @@ final class GameViewModel: ObservableObject {
             .min(by: { $0.rank < $1.rank })
             ?? state.player.hand.first
         {
-            state.player.hand.removeAll { $0.id == moveCard.id }
+            state.player.removeCard(moveCard)
             state.player.faceUp.append(moveCard)
             state.player.faceUpSlots.append([moveCard])
         }
@@ -160,8 +183,42 @@ final class GameViewModel: ObservableObject {
 
         // Refill hand from deck
         while state.player.hand.count < 3 && !state.deck.isEmpty {
-            state.player.hand.append(state.deck.removeFirst())
+            let card = state.deck.removeFirst()
+            state.player.hand.append(card)
+            state.player.handSlots.append([card])
         }
+        state.player.sortHandSlots()
+        HapticManager.tap()
+    }
+
+    /// Merge two same-rank hand slots into one.
+    func joinHandCards(_ card1: GameCard, _ card2: GameCard) {
+        guard case .swap = state.phase else { return }
+        guard card1.rank == card2.rank else { return }
+        guard let si1 = state.player.handSlots.firstIndex(where: { $0.contains { $0.id == card1.id } }),
+              let si2 = state.player.handSlots.firstIndex(where: { $0.contains { $0.id == card2.id } }),
+              si1 != si2 else { return }
+
+        let lo = min(si1, si2), hi = max(si1, si2)
+        let merged = state.player.handSlots[lo] + state.player.handSlots[hi]
+        state.player.handSlots.remove(at: hi)
+        state.player.handSlots[lo] = merged
+        state.player.sortHandSlots()
+        HapticManager.tap()
+    }
+
+    /// Split a grouped hand slot back into individual single-card slots.
+    func unjoinHandSlot(handCard: GameCard) {
+        guard case .swap = state.phase else { return }
+        guard let si = state.player.handSlots.firstIndex(where: {
+            $0.contains { $0.id == handCard.id }
+        }) else { return }
+        guard state.player.handSlots[si].count > 1 else { return }
+
+        let slotCards = state.player.handSlots[si]
+        state.player.handSlots.remove(at: si)
+        state.player.handSlots.append(contentsOf: slotCards.map { [$0] })
+        state.player.sortHandSlots()
         HapticManager.tap()
     }
 
@@ -192,14 +249,16 @@ final class GameViewModel: ObservableObject {
             return
         }
 
-        if selectedCards.contains(card.id) {
-            selectedCards.remove(card.id)
+        // Hand phase: select/deselect entire hand slot group
+        let group = state.player.handSlotGroup(for: card)
+        let allSelected = group.allSatisfy { selectedCards.contains($0.id) }
+        if allSelected {
+            group.forEach { selectedCards.remove($0.id) }
         } else {
-            // Only allow same rank as already selected
-            if let first = selectedCardsList.first, first.rank != card.rank {
-                selectedCards = [card.id]
+            if let first = selectedCardsList.first, first.rank != group.first!.rank {
+                selectedCards = Set(group.map(\.id))
             } else {
-                selectedCards.insert(card.id)
+                group.forEach { selectedCards.insert($0.id) }
             }
         }
         HapticManager.tap()
@@ -241,7 +300,9 @@ final class GameViewModel: ObservableObject {
         // Hand → pile (sorted so lowest rank sits on top)
         state.pile        = oldHand.sorted { $0.rank > $1.rank }
         // Pile → hand
-        state.player.hand = oldPile
+        state.player.hand   = oldPile
+        state.player.handSlots = oldPile.map { [$0] }
+        state.player.sortHandSlots()
         state.isLowMode         = false
         state.playerHasUsedDig  = true
         selectedCards           = []
@@ -256,7 +317,10 @@ final class GameViewModel: ObservableObject {
     func pickUpPile() {
         guard state.turn == .player, case .playing = state.phase else { return }
         guard !state.pile.isEmpty else { return }
-        state.player.hand.append(contentsOf: state.pile)
+        let pileCards = state.pile
+        state.player.hand.append(contentsOf: pileCards)
+        state.player.handSlots.append(contentsOf: pileCards.map { [$0] })
+        state.player.sortHandSlots()
         state.pile      = []
         state.isLowMode = false
         selectedCards   = []
@@ -301,7 +365,10 @@ final class GameViewModel: ObservableObject {
             DispatchQueue.main.asyncAfter(deadline: .now() + 1.3) {
                 self.blindReveal = nil
                 self.state.pile.append(card)
-                self.state.player.hand.append(contentsOf: self.state.pile)
+                let pickupCards = self.state.pile
+                self.state.player.hand.append(contentsOf: pickupCards)
+                self.state.player.handSlots.append(contentsOf: pickupCards.map { [$0] })
+                self.state.player.sortHandSlots()
                 self.state.pile          = []
                 self.state.isLowMode     = false
                 self.stats.currentStreak = 0
@@ -322,8 +389,11 @@ final class GameViewModel: ObservableObject {
         // Draw back up to 3
         if turn == .player {
             while state.player.hand.count < 3 && !state.deck.isEmpty {
-                state.player.hand.append(state.deck.removeFirst())
+                let card = state.deck.removeFirst()
+                state.player.hand.append(card)
+                state.player.handSlots.append([card])
             }
+            state.player.sortHandSlots()
         } else {
             while state.ai.hand.count < 3 && !state.deck.isEmpty {
                 state.ai.hand.append(state.deck.removeFirst())

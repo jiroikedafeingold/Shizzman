@@ -82,6 +82,7 @@ enum L10n {
         static let yourHand      = loc("swap.your_hand")
         static let ready         = loc("swap.ready")
         static let tapToHand      = loc("swap.tap_to_hand")
+        static let tapToSeparate  = loc("swap.tap_to_separate")
         static let alwaysPlayable = loc("swap.always_playable")
         static let forcesLow     = loc("swap.forces_low")
         static let burnsPile     = loc("swap.burns_pile")

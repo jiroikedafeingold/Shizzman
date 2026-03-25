@@ -57,6 +57,7 @@
 "swap.table_cards"     = "테이블 카드 (앞면)";
 "swap.your_hand"       = "내 패";
 "swap.ready"           = "준비 완료 — 게임 시작";
+"swap.tap_to_separate" = "다시 탭 → 분리";
 "swap.always_playable" = "항상 낼 수 있음";
 "swap.forces_low"      = "낮게 강제";
 "swap.burns_pile"      = "더미 소각";

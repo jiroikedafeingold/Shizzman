@@ -13,6 +13,8 @@ struct PlayerState: Codable {
     var faceDown:     [GameCard]
     /// Groupings for the face-up zone. Each element is a slot containing 1–4 same-rank cards.
     var faceUpSlots:  [[GameCard]] = []
+    /// Groupings for the hand zone. Each element is a slot containing same-rank cards joined during arrange phase.
+    var handSlots:    [[GameCard]] = []
 
     var isEmpty: Bool { hand.isEmpty && faceUp.isEmpty && faceDown.isEmpty }
 
@@ -48,7 +50,23 @@ struct PlayerState: Codable {
         faceUpSlots.first { $0.contains { $0.id == card.id } } ?? [card]
     }
 
-    // Remove a card from whichever zone it's in (keeps faceUpSlots in sync)
+    /// Initialise one slot per hand card. Call after dealing.
+    mutating func initHandSlots() {
+        handSlots = hand.map { [$0] }
+        sortHandSlots()
+    }
+
+    /// Sort hand slots ascending by rank.
+    mutating func sortHandSlots() {
+        handSlots.sort { ($0.first?.rank ?? 0) < ($1.first?.rank ?? 0) }
+    }
+
+    /// All cards in the same hand slot as the given card.
+    func handSlotGroup(for card: GameCard) -> [GameCard] {
+        handSlots.first { $0.contains { $0.id == card.id } } ?? [card]
+    }
+
+    // Remove a card from whichever zone it's in (keeps faceUpSlots and handSlots in sync)
     mutating func removeCard(_ card: GameCard) {
         hand.removeAll     { $0.id == card.id }
         faceUp.removeAll   { $0.id == card.id }
@@ -57,11 +75,19 @@ struct PlayerState: Codable {
             faceUpSlots[i].removeAll { $0.id == card.id }
         }
         faceUpSlots.removeAll { $0.isEmpty }
+        for i in handSlots.indices {
+            handSlots[i].removeAll { $0.id == card.id }
+        }
+        handSlots.removeAll { $0.isEmpty }
     }
 
     // Remove multiple cards (multi-rank play)
     mutating func removeCards(_ cards: [GameCard]) { cards.forEach { removeCard($0) } }
 
-    // Add cards to hand
-    mutating func addToHand(_ cards: [GameCard]) { hand.append(contentsOf: cards) }
+    // Add cards to hand as individual slots
+    mutating func addToHand(_ cards: [GameCard]) {
+        hand.append(contentsOf: cards)
+        handSlots.append(contentsOf: cards.map { [$0] })
+        sortHandSlots()
+    }
 }
