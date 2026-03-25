@@ -1,0 +1,132 @@
+// Home
+"home.subtitle"     = "Shizzman · 1 vs IA";
+"home.info1"        = "Baralho de 52 cartas, distribuído para os dois jogadores";
+"home.info2"        = "Jogue ≥ a carta do topo ou pegue a pilha";
+"home.info3"        = "2 reinicia · 7 força baixo · 10 queima";
+"home.info4"        = "O primeiro a eliminar todas as cartas vence";
+"home.play_button"  = "Jogar";
+"home.resets"       = "Reinicia";
+"home.forces_low"   = "Força ≤7";
+"home.burns_pile"   = "Queima a pilha";
+
+// Game
+"game.arrange_hand"    = "ORGANIZAR MÃO";
+"game.opponent"        = "OPONENTE";
+"game.thinking"        = "pensando…";
+"game.cards_count"     = "%d cartas";
+"game.blind"           = "Virada";
+"game.table"           = "Mesa";
+"game.hand_count"      = "Mão (%d)";
+"game.your_turn"       = "SUA VEZ";
+"game.ai_thinking"     = "OPONENTE PENSANDO…";
+"game.ai_turn"         = "VEZ DO OPONENTE";
+"game.pick_pile"       = "Pegar Pilha";
+"game.select_card"     = "Selecione uma carta";
+"game.play_card"       = "Jogar Carta";
+"game.play_cards"      = "Jogar %d Cartas";
+"game.you"             = "VOCÊ";
+"game.tap_blind"       = "Toque para virar";
+"game.phase_hand"      = "MÃO";
+"game.phase_face_up"   = "MESA";
+"game.phase_face_down" = "VIRADA";
+"game.dig_pile"        = "Cavar";
+
+// Messages
+"msg.arrange"       = "Organize suas cartas viradas antes de começar";
+"msg.your_turn"     = "Sua vez";
+"msg.ai_thinking"   = "O oponente está pensando…";
+"msg.you_picked_up" = "Você pegou a pilha";
+"msg.cant_play"     = "Não pode jogar — você pegou a pilha";
+"msg.ai_flipped_bad"= "O oponente virou uma carta ruim e pegou a pilha";
+"msg.ai_picked_up"  = "O oponente pegou a pilha";
+"msg.burn_ten"      = "10 jogado — pilha queimada! Jogue de novo";
+"msg.burn_quad"     = "Quatro %@s — pilha queimada! Jogue de novo";
+"msg.ai_burn_ten"   = "O oponente jogou um 10 — pilha queimada";
+"msg.ai_burn_quad"  = "O oponente completou quatro %@s — pilha queimada";
+"msg.tap_blind"     = "Toque em uma carta virada para revelá-la";
+"msg.select_play"   = "Selecione carta(s) para jogar — ou pegue a pilha";
+"msg.no_valid_plays"= "Sem jogadas válidas — pegue a pilha";
+"msg.ai_plays"      = "O oponente jogou %@";
+"msg.ai_plays_n"    = "O oponente jogou %d× %@";
+"msg.you_dug"       = "Você trocou sua mão pela pilha";
+"msg.blind_win"     = "Sorte cega — você ganhou!";
+
+// Swap
+"swap.arrange_table"   = "ORGANIZAR MESA";
+"swap.instruction"     = "Toque em uma carta da mão e uma da mesa para trocá-las";
+"swap.table_cards"     = "CARTAS DA MESA (viradas para cima)";
+"swap.your_hand"       = "SUA MÃO";
+"swap.ready"           = "Pronto — Começar";
+"swap.always_playable" = "Sempre jogável";
+"swap.forces_low"      = "Força baixo";
+"swap.burns_pile"      = "Queima a pilha";
+
+// Game over
+"gameover.you_win"      = "Você venceu!";
+"gameover.you_lose"     = "Você perdeu";
+"gameover.cleared_hand" = "Você esvaziou sua mão primeiro";
+"gameover.ai_shed"      = "O oponente descartou todas as suas cartas";
+"gameover.time"         = "Tempo";
+"gameover.play_again"   = "Jogar Novamente";
+"gameover.home"         = "Início";
+
+// Pile peek
+"pile_peek.title"    = "CONTEÚDO DA PILHA";
+"pile_peek.subtitle" = "%d cartas — do topo";
+"pile_peek.top"      = "TOPO";
+
+// Rules
+"rules.title" = "Como Jogar";
+"rules.done"  = "Pronto";
+
+"rules.objective.title" = "Objetivo";
+"rules.objective.text"  = "Seja o primeiro a se livrar de todas as suas cartas — mão, mesa e viradas.";
+
+"rules.setup.title" = "Configuração";
+"rules.setup.text1" = "Cada jogador recebe 3 cartas viradas (face para baixo), 3 cartas de mesa (face para cima) e 3 cartas na mão.";
+"rules.setup.text2" = "Antes de começar, você pode trocar qualquer carta da mão com uma da mesa.";
+
+"rules.turn.title" = "Sua Vez";
+"rules.turn.text1" = "Jogue uma ou mais cartas do mesmo valor na pilha. As cartas devem ser ≥ à carta do topo.";
+"rules.turn.text2" = "Após jogar, compre até ter 3 cartas enquanto o baralho tiver cartas.";
+"rules.turn.text3" = "Se não puder jogar, pegue toda a pilha para a sua mão.";
+
+"rules.zones.title" = "Zonas de Cartas";
+"rules.zones.text1" = "Jogue primeiro da mão. Quando vazia, jogue as cartas da mesa. Depois vire as cartas viradas uma a uma.";
+"rules.zones.text2" = "Se uma carta virada não puder ser jogada, pegue a pilha mais essa carta.";
+
+"rules.special.title"   = "Cartas Especiais";
+"rules.special.text2"   = "Reinicia a pilha — jogável em qualquer carta. O próximo jogador pode jogar qualquer carta.";
+"rules.special.text7"   = "Força modo baixo — o próximo jogador deve jogar 7 ou menos. Vários 7 mantêm o modo ativo.";
+"rules.special.text10"  = "Queima a pilha — remove todas as cartas. O mesmo jogador joga novamente.";
+
+"rules.burn.title" = "Queimar a Pilha";
+"rules.burn.text"  = "Jogar um 10 queima a pilha. Completar quatro do mesmo valor no topo também queima. Após queimar, você joga imediatamente.";
+
+"rules.peek.title" = "Ver a Pilha";
+"rules.peek.text1" = "Toque na pilha de descarte a qualquer momento para ver todas as cartas, do topo ao fundo. (Ativar nas Configurações)";
+"rules.peek.text2" = "Use isso para decidir se vale a pena pegar a pilha.";
+
+"rules.win.title" = "Vitória";
+"rules.win.text"  = "O primeiro jogador a jogar sua última carta vence. O outro jogador é o Shizzman.";
+
+"rules.dig.title" = "A Escavação (uma vez por jogo)";
+"rules.dig.text1" = "Uma vez por jogo, enquanto joga da sua mão, toque em Cavar para trocar toda a sua mão pela pilha de descarte. (Ativar nas Configurações)";
+"rules.dig.text2" = "Sua mão antiga torna-se a nova pilha (carta mais baixa no topo). As cartas da pilha tornam-se sua nova mão. Seu turno termina imediatamente após cavar.";
+
+// Settings
+"settings.title"             = "Configurações";
+"settings.done"              = "Pronto";
+"settings.section.gameplay"  = "Jogabilidade";
+"settings.section.table_color" = "Cor da Mesa";
+"settings.dig.title"         = "Cavar";
+"settings.dig.subtitle"      = "Troque sua mão pela pilha de descarte uma vez por jogo.";
+"settings.peek.title"        = "Ver a Pilha";
+"settings.peek.subtitle"     = "Toque na pilha de descarte para ver todas as cartas.";
+"settings.haptics.title"     = "Háptico";
+"settings.haptics.subtitle"  = "Vibração ao jogar cartas e durante eventos.";
+
+// Game over stats
+"gameover.burns"       = "Queimas";
+"gameover.best_streak" = "Melhor Sequência";
+"gameover.blind_luck"  = "Sorte às Cegas";

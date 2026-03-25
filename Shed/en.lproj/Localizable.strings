@@ -1,0 +1,137 @@
+// Home
+"home.subtitle"     = "Shizzman · 1 vs AI";
+"home.info1"        = "52-card deck, deal to both players";
+"home.info2"        = "Play ≥ the top card or pick up the pile";
+"home.info3"        = "2 resets · 7 forces low · 10 burns";
+"home.info4"        = "First to clear all cards wins";
+"home.play_button"  = "Play";
+"home.resets"       = "Resets";
+"home.forces_low"   = "Forces ≤7";
+"home.burns_pile"   = "Burns pile";
+
+// Game
+"game.arrange_hand"    = "ARRANGE YOUR HAND";
+"game.opponent"        = "OPPONENT";
+"game.thinking"        = "thinking…";
+"game.cards_count"     = "%d cards";
+"game.blind"           = "Blind";
+"game.table"           = "Table";
+"game.hand_count"      = "Hand (%d)";
+"game.your_turn"       = "YOUR TURN";
+"game.ai_thinking"     = "OPPONENT THINKING…";
+"game.ai_turn"         = "OPPONENT'S TURN";
+"game.pick_pile"       = "Pick Pile";
+"game.dig_pile"        = "Dig";
+"game.select_card"     = "Select a card";
+"game.play_card"       = "Play Card";
+"game.play_cards"      = "Play %d Cards";
+"game.you"             = "YOU";
+"game.tap_blind"       = "Tap to flip blind";
+"game.phase_hand"      = "HAND";
+"game.phase_face_up"   = "TABLE";
+"game.phase_face_down" = "BLIND";
+
+// Messages
+"msg.arrange"       = "Arrange your face-up cards before the game starts";
+"msg.your_turn"     = "Your turn";
+"msg.ai_thinking"   = "Opponent is thinking…";
+"msg.you_picked_up" = "You picked up the pile";
+"msg.cant_play"     = "Can't play — you picked up the pile";
+"msg.ai_flipped_bad"= "Opponent flipped a bad card and picked up the pile";
+"msg.ai_picked_up"  = "Opponent picked up the pile";
+"msg.burn_ten"      = "10 played — pile burned! Go again";
+"msg.burn_quad"     = "Four %@s — pile burned! Go again";
+"msg.ai_burn_ten"   = "Opponent played a 10 — pile burned";
+"msg.ai_burn_quad"  = "Opponent completed four %@s — pile burned";
+"msg.tap_blind"     = "Tap a blind card to flip it";
+"msg.select_play"   = "Select card(s) to play — or pick up the pile";
+"msg.no_valid_plays"= "No valid plays — pick up the pile";
+"msg.you_dug"       = "You swapped your hand with the pile";
+"msg.blind_win"     = "Lucky blind — you win!";
+"msg.ai_plays"      = "Opponent plays %@";
+"msg.ai_plays_n"    = "Opponent plays %d× %@";
+
+// Swap
+"swap.arrange_table"   = "ARRANGE YOUR TABLE";
+"swap.instruction"     = "Tap to swap cards · tap two matching ranks to join them";
+"swap.table_cards"     = "TABLE CARDS (face-up)";
+"swap.your_hand"       = "YOUR HAND";
+"swap.ready"           = "Ready — Start Game";
+"swap.tap_to_hand"     = "Tap again → to hand";
+"swap.always_playable" = "Always playable";
+"swap.forces_low"      = "Forces low";
+"swap.burns_pile"      = "Burns pile";
+
+// Game over
+"gameover.you_win"      = "You Win!";
+"gameover.you_lose"     = "You Lose";
+"gameover.cleared_hand" = "You cleared your hand first";
+"gameover.ai_shed"      = "Opponent shed all their cards";
+"gameover.time"         = "Time";
+"gameover.play_again"   = "Play Again";
+"gameover.home"         = "Home";
+
+// Pile peek
+"pile_peek.title"    = "PILE CONTENTS";
+"pile_peek.subtitle" = "%d cards — top first";
+"pile_peek.top"      = "TOP";
+
+// Rules
+"rules.title" = "How to Play";
+"rules.done"  = "Done";
+
+"rules.objective.title" = "Objective";
+"rules.objective.text"  = "Be the first player to get rid of all your cards — hand, table, and blind cards.";
+
+"rules.setup.title" = "Setup";
+"rules.setup.text1" = "Each player gets 3 blind cards (face-down), 3 table cards (face-up), and 3 hand cards.";
+"rules.setup.text2" = "Before the game starts, you can swap any hand card with any of your table cards.";
+
+"rules.join.title" = "Joining Table Cards";
+"rules.join.text1" = "During the arrange phase, tap two cards of the same rank to join them into one slot — either two table cards together, or a hand card onto a matching table card.";
+"rules.join.text2" = "Joined cards stay grouped on the table and are played together as a single move. To move a group back to your hand instead, tap the slot to select it, then tap it again — the cards will move to your hand and be played normally when your turn comes.";
+
+"rules.turn.title" = "Taking a Turn";
+"rules.turn.text1" = "Play one or more cards of the same rank onto the pile. The card(s) must be ≥ the top card of the pile.";
+"rules.turn.text2" = "After playing, draw back up to 3 hand cards while the deck lasts.";
+"rules.turn.text3" = "If you can't play, pick up the entire pile and it becomes part of your hand.";
+
+"rules.zones.title" = "Card Zones";
+"rules.zones.text1" = "You play from your hand first. Once your hand is empty you play from your table cards. Once those are gone you flip blind cards one at a time.";
+"rules.zones.text2" = "If a blind card can't be played, you pick up the pile plus that card.";
+
+"rules.special.title"   = "Special Cards";
+"rules.special.text2"   = "Resets the pile — can be played on anything. Next player can play any card.";
+"rules.special.text7"   = "Forces low mode — next player must play 7 or lower. Stacks of 7s keep low mode active.";
+"rules.special.text10"  = "Burns the pile — removes all cards from play. Same player goes again.";
+
+"rules.burn.title" = "Burning the Pile";
+"rules.burn.text"  = "Playing a 10 burns the pile. You also burn the pile if you complete four-of-a-kind on top. After a burn you play again immediately.";
+
+"rules.peek.title" = "Peeking at the Pile";
+"rules.peek.text1" = "Tap the discard pile at any time to see every card in it, from top to bottom. Enable this in Settings.";
+"rules.peek.text2" = "Use this to decide whether picking up the pile is worth it — it could help you or hurt you.";
+
+"rules.dig.title" = "The Dig (once per game)";
+"rules.dig.text1" = "Once per game, while playing from your hand, tap Dig to swap your entire hand with the discard pile. Enable this in Settings.";
+"rules.dig.text2" = "Your old hand becomes the new pile (lowest card on top). The pile cards become your new hand. Your turn ends immediately after digging.";
+
+"rules.win.title" = "Winning";
+"rules.win.text"  = "The first player to play their last card wins. The other player is the Shizzman.";
+
+// Settings
+"settings.title"                = "Settings";
+"settings.done"                 = "Done";
+"settings.section.gameplay"     = "Gameplay";
+"settings.section.table_color"  = "Table Colour";
+"settings.dig.title"            = "Dig";
+"settings.dig.subtitle"         = "Swap your hand with the discard pile once per game.";
+"settings.peek.title"           = "Peek at Pile";
+"settings.peek.subtitle"        = "Tap the discard pile to see all cards inside it.";
+"settings.haptics.title"        = "Haptics";
+"settings.haptics.subtitle"     = "Vibration feedback for card plays and events.";
+
+// Game over stats
+"gameover.burns"       = "Burns";
+"gameover.best_streak" = "Best Streak";
+"gameover.blind_luck"  = "Blind Luck";

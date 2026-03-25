@@ -1,0 +1,1149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --felt:    #1a3a2a;
+  --surface: #1e2a22;
+  --elev:    #243020;
+  --border:  rgba(255,255,255,0.08);
+  --primary: #f0ede6;
+  --sec:     rgba(240,237,230,0.55);
+  --tert:    rgba(240,237,230,0.30);
+  --valid:   #4caf7d;
+  --burn:    #e05c4b;
+  --reset:   #5b9bd5;
+  --low:     #c9a227;
+  --hint:    #a07cde;
+  --face:    #f7f3eb;
+  --back:    #2d4a3a;
+  --rSm: 8px;
+  --rMd: 12px;
+}
+
+body { background: #111; font-family: -apple-system, BlinkMacSystemFont, sans-serif; display: flex; flex-wrap: wrap; gap: 24px; padding: 24px; }
+
+.screen {
+  width: 393px;
+  height: 852px;
+  background: var(--felt);
+  border-radius: 52px;
+  overflow: hidden;
+  position: relative;
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Status bar */
+.status-bar {
+  height: 54px;
+  padding: 14px 28px 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-shrink: 0;
+}
+.status-time { color: var(--primary); font-size: 15px; font-weight: 600; }
+.status-icons { display: flex; gap: 6px; align-items: center; }
+.status-icons svg { fill: var(--primary); }
+
+/* Dynamic Island */
+.dynamic-island {
+  position: absolute;
+  top: 12px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 120px;
+  height: 36px;
+  background: #000;
+  border-radius: 20px;
+  z-index: 10;
+}
+
+/* Card component */
+.card {
+  background: var(--face);
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.4);
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  padding: 5px 6px;
+  position: relative;
+  flex-shrink: 0;
+}
+.card .rank { font-size: 16px; font-weight: 800; line-height: 1; }
+.card .suit { font-size: 12px; line-height: 1; }
+.card.red  { color: #c0392b; }
+.card.black { color: #1a1a1a; }
+.card-lg { width: 68px; height: 96px; }
+.card-md { width: 56px; height: 78px; }
+.card-sm { width: 44px; height: 62px; }
+.card-xs { width: 36px; height: 50px; }
+
+.card-back {
+  background: var(--back);
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.4);
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid rgba(255,255,255,0.08);
+}
+.card-back::after {
+  content: '';
+  width: 60%;
+  height: 60%;
+  border: 1.5px solid rgba(255,255,255,0.15);
+  border-radius: 3px;
+}
+
+.card-selected { outline: 2px solid var(--valid); outline-offset: 2px; }
+.card-playable { }
+
+/* Special badge on card */
+.card-badge {
+  position: absolute;
+  bottom: -5px;
+  right: -5px;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 8px;
+  font-weight: 800;
+  color: #fff;
+  border: 2px solid var(--felt);
+}
+.badge-burn  { background: var(--burn); }
+.badge-reset { background: var(--reset); }
+.badge-low   { background: var(--low); }
+
+/* ══════════════════════════════════════════
+   SCREEN 1 — HOME
+═══════════════════════════════════════════ */
+#home { background: var(--felt); }
+#home .content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 0 32px;
+  gap: 0;
+}
+.home-top-btn {
+  position: absolute;
+  top: 60px;
+  color: var(--tert);
+  font-size: 22px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 50%;
+  width: 36px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.home-top-btn.left  { left: 20px; }
+.home-top-btn.right { right: 20px; }
+.home-title {
+  font-size: 14px;
+  letter-spacing: 3px;
+  color: var(--tert);
+  text-transform: uppercase;
+  margin-bottom: 4px;
+}
+.home-sub {
+  font-size: 13px;
+  color: var(--tert);
+  letter-spacing: 1px;
+  margin-bottom: 40px;
+}
+.home-info {
+  width: 100%;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--rMd);
+  padding: 18px 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  margin-bottom: 24px;
+}
+.info-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 15px;
+  color: var(--sec);
+}
+.info-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--valid);
+  flex-shrink: 0;
+}
+.specials-row {
+  display: flex;
+  gap: 10px;
+  width: 100%;
+  margin-bottom: 32px;
+}
+.special-chip {
+  flex: 1;
+  border-radius: var(--rSm);
+  padding: 8px 6px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 3px;
+  border: 1px solid;
+}
+.special-chip .num { font-size: 18px; font-weight: 800; }
+.special-chip .desc { font-size: 9px; letter-spacing: 0.5px; text-align: center; color: var(--sec); }
+.chip-burn   { background: rgba(224,92,75,0.10);  border-color: rgba(224,92,75,0.25); }
+.chip-reset  { background: rgba(91,155,213,0.10); border-color: rgba(91,155,213,0.25); }
+.chip-low    { background: rgba(201,162,39,0.10); border-color: rgba(201,162,39,0.25); }
+.chip-burn .num  { color: var(--burn); }
+.chip-reset .num { color: var(--reset); }
+.chip-low .num   { color: var(--low); }
+
+.btn-play {
+  width: 100%;
+  background: var(--valid);
+  border-radius: var(--rMd);
+  padding: 17px;
+  text-align: center;
+  color: #fff;
+  font-size: 17px;
+  font-weight: 700;
+  letter-spacing: 0.3px;
+}
+
+/* ══════════════════════════════════════════
+   SCREEN 2 — ARRANGE HAND
+═══════════════════════════════════════════ */
+#arrange .nav {
+  height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 20px;
+  flex-shrink: 0;
+}
+#arrange .nav .back-btn {
+  width: 34px; height: 34px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  color: var(--sec); font-size: 14px;
+}
+#arrange .nav .nav-title {
+  font-size: 12px;
+  letter-spacing: 4px;
+  color: var(--tert);
+}
+#arrange .content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 0 24px;
+  gap: 16px;
+}
+.arrange-section {
+  width: 100%;
+}
+.arrange-label {
+  font-size: 10px;
+  letter-spacing: 2px;
+  color: var(--tert);
+  margin-bottom: 6px;
+  padding-left: 4px;
+}
+.arrange-box {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--rMd);
+  padding: 16px 20px;
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+.arrange-arrow {
+  color: var(--tert);
+  font-size: 18px;
+  text-align: center;
+  width: 100%;
+}
+.legend-row {
+  display: flex;
+  gap: 14px;
+  justify-content: center;
+  width: 100%;
+}
+.legend-item {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 10px;
+  color: var(--tert);
+}
+.legend-pip {
+  padding: 1px 5px;
+  border-radius: 100px;
+  font-size: 10px;
+  font-weight: 700;
+}
+.btn-ready {
+  width: 100%;
+  background: var(--valid);
+  border-radius: var(--rMd);
+  padding: 16px;
+  text-align: center;
+  color: #fff;
+  font-size: 16px;
+  font-weight: 700;
+}
+
+/* instruction text */
+.arrange-instr {
+  font-size: 11px;
+  color: var(--sec);
+  text-align: center;
+  margin-bottom: 8px;
+}
+
+/* ══════════════════════════════════════════
+   SCREEN 3 — GAMEPLAY
+═══════════════════════════════════════════ */
+#gameplay .playing-nav {
+  height: 46px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 0 16px;
+  flex-shrink: 0;
+}
+.turn-dot {
+  width: 7px; height: 7px;
+  border-radius: 50%;
+}
+.dot-active { background: var(--valid); }
+.dot-inactive { background: rgba(240,237,230,0.25); }
+.turn-label { font-size: 13px; letter-spacing: 2px; font-weight: 500; }
+.turn-active { color: var(--valid); }
+.playing-nav .spacer { flex: 1; }
+.playing-nav .timer { font-size: 13px; color: var(--tert); font-variant-numeric: tabular-nums; font-weight: 500; }
+.playing-nav .help-btn { color: var(--tert); font-size: 16px; margin-left: 6px; }
+
+.divider-line {
+  height: 1px;
+  background: var(--border);
+  margin: 0 16px;
+  flex-shrink: 0;
+}
+
+/* AI area */
+.ai-area {
+  padding: 10px 16px;
+  flex-shrink: 0;
+}
+.ai-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 12px;
+}
+.ai-label { font-size: 13px; letter-spacing: 3px; color: var(--tert); }
+.ai-count { font-size: 13px; color: var(--tert); }
+.ai-cards-row { display: flex; gap: 24px; align-items: flex-end; }
+.ai-zone { display: flex; flex-direction: column; align-items: center; gap: 8px; }
+.ai-zone-label { font-size: 12px; color: var(--tert); }
+.ai-face-cards { display: flex; gap: 3px; }
+.ai-hand-stack { position: relative; width: 32px; height: 44px; }
+.ai-hand-stack .cb {
+  position: absolute;
+  width: 26px; height: 36px;
+  background: var(--back);
+  border-radius: 4px;
+  border: 1px solid rgba(255,255,255,0.08);
+}
+
+/* Center pile */
+.center-area {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0;
+  padding: 0 16px;
+  flex: 1;
+}
+.dig-btn {
+  width: 80px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.dig-inner {
+  width: 64px; height: 64px;
+  border-radius: var(--rMd);
+  border: 1px solid rgba(91,155,213,0.35);
+  background: rgba(91,155,213,0.08);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  color: var(--reset);
+  font-size: 10px;
+  letter-spacing: 1px;
+}
+.dig-inner .dig-icon { font-size: 18px; }
+
+.pile-area {
+  display: flex;
+  gap: 20px;
+  align-items: center;
+}
+.pile-stack {
+  position: relative;
+  width: 80px;
+  height: 110px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.pile-card {
+  position: absolute;
+  width: 74px;
+  height: 104px;
+  background: var(--face);
+  border-radius: 10px;
+  box-shadow: 0 6px 18px rgba(0,0,0,0.5);
+  display: flex;
+  flex-direction: column;
+  padding: 6px 7px;
+}
+.pile-card.offset1 { transform: rotate(-4deg) translate(-2px, 2px); z-index: 1; }
+.pile-card.offset2 { transform: rotate(2deg) translate(3px, -1px); z-index: 2; }
+.pile-card.top-card { transform: rotate(-1deg); z-index: 3; }
+.pile-rank { font-size: 22px; font-weight: 800; color: var(--burn); }
+.pile-suit { font-size: 16px; color: var(--burn); }
+.pile-count {
+  position: absolute;
+  bottom: -8px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 100px;
+  font-size: 11px;
+  color: var(--tert);
+  padding: 2px 8px;
+  white-space: nowrap;
+  z-index: 10;
+}
+
+.deck-stack {
+  position: relative;
+  width: 60px;
+  height: 90px;
+}
+.deck-card {
+  position: absolute;
+  width: 58px;
+  height: 82px;
+  background: var(--back);
+  border-radius: 8px;
+  border: 1px solid rgba(255,255,255,0.08);
+}
+.deck-count {
+  position: absolute;
+  bottom: -8px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 11px;
+  color: var(--tert);
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 100px;
+  padding: 2px 8px;
+  white-space: nowrap;
+}
+
+/* Message bar */
+.msg-bar {
+  padding: 8px 20px;
+  text-align: center;
+  font-size: 15px;
+  color: var(--sec);
+  flex-shrink: 0;
+}
+
+/* Player area */
+.player-area {
+  padding: 0 16px;
+  flex-shrink: 0;
+}
+.player-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 12px;
+}
+.you-label { font-size: 13px; letter-spacing: 3px; color: var(--tert); }
+.phase-label { font-size: 13px; letter-spacing: 2px; color: var(--tert); }
+.faceup-row {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  margin-bottom: 10px;
+}
+.zone-label { font-size: 12px; color: var(--tert); margin-left: 4px; }
+.hand-scroll {
+  display: flex;
+  gap: 8px;
+  overflow: hidden;
+  padding: 4px 4px 10px;
+}
+
+/* Action buttons */
+.action-btns {
+  display: flex;
+  gap: 12px;
+  padding: 8px 16px 28px;
+  flex-shrink: 0;
+}
+.btn-action {
+  flex: 1;
+  padding: 13px;
+  border-radius: var(--rMd);
+  text-align: center;
+  font-size: 14px;
+  font-weight: 600;
+}
+.btn-play-cards {
+  background: var(--valid);
+  color: #fff;
+}
+.btn-pickup {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  color: var(--sec);
+  font-size: 13px;
+}
+
+/* ══════════════════════════════════════════
+   SCREEN 4 — BURN MOMENT
+═══════════════════════════════════════════ */
+#burn { background: var(--felt); }
+.burn-flash-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(224,92,75,0.12);
+  z-index: 5;
+  pointer-events: none;
+}
+.burn-msg { color: var(--burn) !important; font-weight: 600; }
+
+/* ══════════════════════════════════════════
+   SCREEN 5 — GAME OVER WIN
+═══════════════════════════════════════════ */
+#gameover {
+  background: var(--felt);
+  display: flex;
+  flex-direction: column;
+}
+.gameover-content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 32px;
+  gap: 24px;
+}
+.win-symbol {
+  font-size: 80px;
+  color: var(--valid);
+  line-height: 1;
+}
+.win-title {
+  font-size: 44px;
+  font-weight: 800;
+  letter-spacing: -1.5px;
+  color: var(--primary);
+}
+.win-sub {
+  font-size: 13px;
+  letter-spacing: 1px;
+  color: var(--sec);
+}
+.stats-grid {
+  width: 100%;
+  background: var(--elev);
+  border: 1px solid var(--border);
+  border-radius: var(--rMd);
+  overflow: hidden;
+}
+.stats-row { display: flex; }
+.stat-cell {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 18px 8px;
+  gap: 4px;
+}
+.stat-value { font-size: 22px; font-weight: 700; color: var(--primary); }
+.stat-label { font-size: 11px; color: var(--tert); letter-spacing: 0.5px; }
+.stat-divider-v { width: 1px; background: var(--border); margin: 8px 0; flex-shrink: 0; }
+.stat-divider-h { height: 1px; background: var(--border); }
+.gameover-btns { width: 100%; display: flex; flex-direction: column; gap: 10px; }
+.btn-rematch {
+  background: var(--valid);
+  color: #fff;
+  border-radius: var(--rMd);
+  padding: 16px;
+  text-align: center;
+  font-size: 16px;
+  font-weight: 700;
+}
+.btn-home {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  color: var(--sec);
+  border-radius: var(--rMd);
+  padding: 14px;
+  text-align: center;
+  font-size: 14px;
+}
+
+/* confetti dots */
+.confetti-dot {
+  position: absolute;
+  border-radius: 2px;
+  opacity: 0.8;
+}
+</style>
+</head>
+<body>
+
+<!-- ══ SCREEN 1: HOME ══ -->
+<div class="screen" id="home">
+  <div class="dynamic-island"></div>
+  <div class="status-bar">
+    <span class="status-time">9:41</span>
+    <div class="status-icons">
+      <svg width="17" height="12" viewBox="0 0 17 12"><rect x="0" y="3" width="3" height="9" rx="1"/><rect x="4.5" y="2" width="3" height="10" rx="1"/><rect x="9" y="0.5" width="3" height="11.5" rx="1"/><rect x="13.5" y="0" width="3" height="12" rx="1" opacity=".3"/></svg>
+      <svg width="16" height="12" viewBox="0 0 16 12"><path d="M8 3C5.2 3 2.7 4.1 1 6l1.5 1.5C3.8 6 5.8 5 8 5s4.2 1 5.5 2.5L15 6c-1.7-1.9-4.2-3-7-3zM8 7c-1.2 0-2.3.5-3 1.3L6.5 10l1.5 2 1.5-2 1.5-1.7C10.3 7.5 9.2 7 8 7z"/></svg>
+      <svg width="25" height="12" viewBox="0 0 25 12"><rect x="0" y="1" width="22" height="10" rx="3" fill="none" stroke="currentColor" stroke-width="1"/><rect x="23" y="4" width="2" height="4" rx="1"/><rect x="1.5" y="2.5" width="17" height="7" rx="2"/></svg>
+    </div>
+  </div>
+
+  <!-- Settings btn -->
+  <div class="home-top-btn left" style="position:absolute;top:62px;left:20px;font-size:16px;">⚙</div>
+  <!-- Rules btn -->
+  <div class="home-top-btn right" style="position:absolute;top:62px;right:20px;font-size:16px;">?</div>
+
+  <div class="content">
+    <div style="text-align:center;margin-bottom:8px;">
+      <div class="home-title">Shizzman</div>
+      <div class="home-sub">1 vs Opponent</div>
+    </div>
+
+    <div class="home-info">
+      <div class="info-row"><div class="info-dot"></div>52-card deck, deal to both players</div>
+      <div class="info-row"><div class="info-dot"></div>Play ≥ the top card or pick up the pile</div>
+      <div class="info-row"><div class="info-dot"></div>2 resets · 7 forces low · 10 burns</div>
+      <div class="info-row"><div class="info-dot"></div>First to clear all cards wins</div>
+    </div>
+
+    <div style="display:flex;gap:10px;width:100%;margin-bottom:10px;">
+      <div class="special-chip chip-reset">
+        <span class="num">2</span>
+        <span class="desc">Resets</span>
+      </div>
+      <div class="special-chip chip-low">
+        <span class="num">7</span>
+        <span class="desc">Forces ≤7</span>
+      </div>
+      <div class="special-chip chip-burn">
+        <span class="num">10</span>
+        <span class="desc">Burns pile</span>
+      </div>
+    </div>
+
+    <div class="btn-play">Play</div>
+  </div>
+</div>
+
+<!-- ══ SCREEN 2: ARRANGE HAND ══ -->
+<div class="screen" id="arrange">
+  <div class="dynamic-island"></div>
+  <div class="status-bar">
+    <span class="status-time">9:41</span>
+    <div class="status-icons">
+      <svg width="17" height="12" viewBox="0 0 17 12"><rect x="0" y="3" width="3" height="9" rx="1"/><rect x="4.5" y="2" width="3" height="10" rx="1"/><rect x="9" y="0.5" width="3" height="11.5" rx="1"/><rect x="13.5" y="0" width="3" height="12" rx="1" opacity=".3"/></svg>
+      <svg width="25" height="12" viewBox="0 0 25 12"><rect x="0" y="1" width="22" height="10" rx="3" fill="none" stroke="currentColor" stroke-width="1"/><rect x="23" y="4" width="2" height="4" rx="1"/><rect x="1.5" y="2.5" width="17" height="7" rx="2"/></svg>
+    </div>
+  </div>
+  <div class="nav" style="height:46px;display:flex;align-items:center;justify-content:space-between;padding:0 20px;flex-shrink:0;">
+    <div class="back-btn" style="width:34px;height:34px;background:var(--surface);border:1px solid var(--border);border-radius:50%;display:flex;align-items:center;justify-content:center;color:var(--sec);font-size:14px;">‹</div>
+    <div style="font-size:12px;letter-spacing:4px;color:var(--tert);">ARRANGE YOUR HAND</div>
+    <div style="width:34px;"></div>
+  </div>
+
+  <div class="content" style="flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:0 24px;gap:0;">
+    <div style="text-align:center;margin-bottom:20px;">
+      <div style="font-size:11px;color:var(--sec);">Tap a hand card and a table card to swap them</div>
+    </div>
+
+    <!-- Table cards section -->
+    <div style="width:100%;margin-bottom:12px;">
+      <div style="font-size:10px;letter-spacing:2px;color:var(--tert);margin-bottom:6px;padding-left:4px;">TABLE CARDS (face-up)</div>
+      <div style="background:var(--surface);border:1px solid var(--border);border-radius:var(--rMd);padding:16px 20px;display:flex;gap:12px;align-items:center;">
+        <!-- Card 1: selected face-up -->
+        <div style="position:relative;">
+          <div class="card card-lg red card-selected">
+            <span class="rank">A</span>
+            <span class="suit">♥</span>
+          </div>
+        </div>
+        <!-- Card 2 -->
+        <div style="position:relative;">
+          <div class="card card-lg black">
+            <span class="rank">7</span>
+            <span class="suit">♠</span>
+          </div>
+          <div class="card-badge badge-low" style="font-size:7px;">↓</div>
+        </div>
+        <!-- Card 3 -->
+        <div style="position:relative;">
+          <div class="card card-lg red">
+            <span class="rank">10</span>
+            <span class="suit">♦</span>
+          </div>
+          <div class="card-badge badge-burn" style="font-size:7px;">✕</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Arrow -->
+    <div style="color:var(--tert);font-size:20px;text-align:center;padding:10px 0;">⇅</div>
+
+    <!-- Hand section -->
+    <div style="width:100%;margin-bottom:20px;">
+      <div style="font-size:10px;letter-spacing:2px;color:var(--tert);margin-bottom:6px;padding-left:4px;">YOUR HAND</div>
+      <div style="background:var(--surface);border:1px solid var(--border);border-radius:var(--rMd);padding:16px 20px;display:flex;gap:12px;align-items:center;">
+        <div class="card card-lg black">
+          <span class="rank">3</span>
+          <span class="suit">♣</span>
+        </div>
+        <div class="card card-lg red">
+          <span class="rank">K</span>
+          <span class="suit">♦</span>
+        </div>
+        <div class="card card-lg black">
+          <span class="rank">2</span>
+          <span class="suit">♠</span>
+        </div>
+        <div class="card-badge badge-reset" style="position:relative;margin-left:-8px;margin-top:66px;font-size:7px;width:18px;height:18px;border-radius:50%;background:var(--reset);display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700;flex-shrink:0;">↺</div>
+      </div>
+    </div>
+
+    <!-- Legend -->
+    <div class="legend-row" style="margin-bottom:24px;">
+      <div class="legend-item">
+        <span class="legend-pip" style="background:rgba(91,155,213,0.15);color:var(--reset);">2</span>
+        <span>Always playable</span>
+      </div>
+      <div class="legend-item">
+        <span class="legend-pip" style="background:rgba(201,162,39,0.15);color:var(--low);">7</span>
+        <span>Forces low</span>
+      </div>
+      <div class="legend-item">
+        <span class="legend-pip" style="background:rgba(224,92,75,0.15);color:var(--burn);">10</span>
+        <span>Burns pile</span>
+      </div>
+    </div>
+
+    <div class="btn-ready">Ready — Start Game</div>
+  </div>
+</div>
+
+<!-- ══ SCREEN 3: GAMEPLAY ══ -->
+<div class="screen" id="gameplay">
+  <div class="dynamic-island"></div>
+  <div class="status-bar">
+    <span class="status-time">9:41</span>
+    <div class="status-icons">
+      <svg width="17" height="12" viewBox="0 0 17 12"><rect x="0" y="3" width="3" height="9" rx="1"/><rect x="4.5" y="2" width="3" height="10" rx="1"/><rect x="9" y="0.5" width="3" height="11.5" rx="1"/><rect x="13.5" y="0" width="3" height="12" rx="1" opacity=".3"/></svg>
+      <svg width="25" height="12" viewBox="0 0 25 12"><rect x="0" y="1" width="22" height="10" rx="3" fill="none" stroke="currentColor" stroke-width="1"/><rect x="23" y="4" width="2" height="4" rx="1"/><rect x="1.5" y="2.5" width="17" height="7" rx="2"/></svg>
+    </div>
+  </div>
+
+  <!-- Playing nav -->
+  <div class="playing-nav">
+    <div style="width:30px;height:30px;background:var(--surface);border:1px solid var(--border);border-radius:50%;display:flex;align-items:center;justify-content:center;color:var(--sec);font-size:13px;">‹</div>
+    <div class="turn-dot dot-active"></div>
+    <div class="turn-label turn-active">YOUR TURN</div>
+    <div class="spacer"></div>
+    <div class="timer">1:24</div>
+    <div class="help-btn">?</div>
+  </div>
+
+  <div class="divider-line"></div>
+
+  <!-- AI area -->
+  <div class="ai-area">
+    <div class="ai-header">
+      <span class="ai-label">OPPONENT</span>
+      <span class="ai-count">6 cards</span>
+    </div>
+    <div style="display:flex;gap:28px;align-items:flex-end;">
+      <!-- blind -->
+      <div class="ai-zone">
+        <div style="display:flex;gap:3px;">
+          <div class="card-back card-xs"></div>
+          <div class="card-back card-xs"></div>
+          <div class="card-back card-xs"></div>
+        </div>
+        <div class="ai-zone-label">Blind</div>
+      </div>
+      <!-- table (hidden) -->
+      <div class="ai-zone">
+        <div style="display:flex;gap:3px;">
+          <div class="card-back card-xs"></div>
+          <div class="card-back card-xs"></div>
+          <div class="card-back card-xs"></div>
+        </div>
+        <div class="ai-zone-label">Table</div>
+      </div>
+      <div style="flex:1;"></div>
+      <!-- hand count -->
+      <div class="ai-zone">
+        <div style="position:relative;width:30px;height:40px;">
+          <div style="position:absolute;left:0;top:4px;width:22px;height:32px;background:var(--back);border-radius:4px;border:1px solid rgba(255,255,255,0.08);"></div>
+          <div style="position:absolute;left:4px;top:2px;width:22px;height:32px;background:var(--back);border-radius:4px;border:1px solid rgba(255,255,255,0.08);"></div>
+          <div style="position:absolute;left:8px;top:0;width:22px;height:32px;background:var(--back);border-radius:4px;border:1px solid rgba(255,255,255,0.08);"></div>
+        </div>
+        <div class="ai-zone-label">Hand (0)</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="divider-line"></div>
+
+  <div style="flex:1;"></div>
+
+  <!-- Center -->
+  <div class="center-area">
+    <!-- Dig button -->
+    <div class="dig-btn">
+      <div class="dig-inner">
+        <span class="dig-icon">⇄</span>
+        <span>DIG</span>
+      </div>
+    </div>
+
+    <div style="flex:1;display:flex;justify-content:center;">
+      <!-- Pile -->
+      <div class="pile-stack" style="margin-right:18px;">
+        <div class="pile-card offset1">
+          <div style="font-size:18px;font-weight:800;color:#1a1a1a;">K</div>
+          <div style="font-size:13px;color:#1a1a1a;">♠</div>
+        </div>
+        <div class="pile-card offset2">
+          <div style="font-size:18px;font-weight:800;color:#c0392b;">Q</div>
+          <div style="font-size:13px;color:#c0392b;">♥</div>
+        </div>
+        <div class="pile-card top-card">
+          <div class="pile-rank">K</div>
+          <div class="pile-suit">♣</div>
+          <div style="font-size:9px;color:var(--tert);position:absolute;bottom:5px;right:6px;font-weight:600;">♣</div>
+        </div>
+        <div class="pile-count">8 cards</div>
+      </div>
+
+      <!-- Deck -->
+      <div class="deck-stack">
+        <div class="deck-card" style="top:6px;left:3px;"></div>
+        <div class="deck-card" style="top:3px;left:1.5px;"></div>
+        <div class="deck-card" style="top:0;left:0;"></div>
+        <div class="deck-count">28</div>
+      </div>
+    </div>
+
+    <div style="width:80px;"></div>
+  </div>
+
+  <div style="flex:1;"></div>
+
+  <div class="divider-line"></div>
+
+  <!-- Message -->
+  <div class="msg-bar">Select card(s) to play — or pick up the pile</div>
+
+  <!-- Player area -->
+  <div class="player-area">
+    <div class="player-header">
+      <span class="you-label">YOU</span>
+      <span class="phase-label">HAND</span>
+    </div>
+
+    <!-- Face-up table -->
+    <div class="faceup-row" style="margin-bottom:8px;">
+      <div class="card card-sm red">
+        <span style="font-size:13px;font-weight:800;">2</span>
+        <span style="font-size:10px;">♦</span>
+      </div>
+      <div class="card card-sm black">
+        <span style="font-size:13px;font-weight:800;">8</span>
+        <span style="font-size:10px;">♣</span>
+      </div>
+      <div class="card card-sm red">
+        <span style="font-size:13px;font-weight:800;">10</span>
+        <span style="font-size:10px;">♥</span>
+      </div>
+      <span class="zone-label">Table</span>
+    </div>
+
+    <!-- Hand -->
+    <div class="hand-scroll">
+      <div style="position:relative;">
+        <div class="card card-md black">
+          <span style="font-size:15px;font-weight:800;">A</span>
+          <span style="font-size:11px;">♠</span>
+        </div>
+      </div>
+      <div class="card card-md red card-selected" style="margin-top:-10px;">
+        <span style="font-size:15px;font-weight:800;">A</span>
+        <span style="font-size:11px;">♥</span>
+      </div>
+      <div class="card card-md red card-selected" style="margin-top:-10px;">
+        <span style="font-size:15px;font-weight:800;">A</span>
+        <span style="font-size:11px;">♦</span>
+      </div>
+      <div class="card card-md black">
+        <span style="font-size:15px;font-weight:800;">K</span>
+        <span style="font-size:11px;">♣</span>
+      </div>
+      <div class="card card-md red">
+        <span style="font-size:15px;font-weight:800;">Q</span>
+        <span style="font-size:11px;">♦</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Action buttons -->
+  <div class="action-btns">
+    <div class="btn-action btn-play-cards">Play 2 Cards</div>
+    <div class="btn-action btn-pickup">
+      <span style="margin-right:4px;">↓</span> Pick Pile
+    </div>
+  </div>
+</div>
+
+<!-- ══ SCREEN 4: BURN ══ -->
+<div class="screen" id="burn">
+  <div class="dynamic-island"></div>
+  <div class="burn-flash-overlay"></div>
+
+  <div class="status-bar">
+    <span class="status-time">9:41</span>
+    <div class="status-icons">
+      <svg width="17" height="12" viewBox="0 0 17 12"><rect x="0" y="3" width="3" height="9" rx="1"/><rect x="4.5" y="2" width="3" height="10" rx="1"/><rect x="9" y="0.5" width="3" height="11.5" rx="1"/><rect x="13.5" y="0" width="3" height="12" rx="1" opacity=".3"/></svg>
+      <svg width="25" height="12" viewBox="0 0 25 12"><rect x="0" y="1" width="22" height="10" rx="3" fill="none" stroke="currentColor" stroke-width="1"/><rect x="23" y="4" width="2" height="4" rx="1"/><rect x="1.5" y="2.5" width="17" height="7" rx="2"/></svg>
+    </div>
+  </div>
+
+  <div class="playing-nav">
+    <div style="width:30px;height:30px;background:var(--surface);border:1px solid var(--border);border-radius:50%;display:flex;align-items:center;justify-content:center;color:var(--sec);font-size:13px;">‹</div>
+    <div class="turn-dot dot-active"></div>
+    <div class="turn-label turn-active">YOUR TURN</div>
+    <div class="spacer"></div>
+    <div class="timer">2:07</div>
+    <div class="help-btn">?</div>
+  </div>
+
+  <div class="divider-line"></div>
+
+  <div class="ai-area">
+    <div class="ai-header">
+      <span class="ai-label">OPPONENT</span>
+      <span class="ai-count">4 cards</span>
+    </div>
+    <div style="display:flex;gap:28px;align-items:flex-end;">
+      <div class="ai-zone">
+        <div style="display:flex;gap:3px;">
+          <div class="card-back card-xs"></div>
+          <div class="card-back card-xs"></div>
+        </div>
+        <div class="ai-zone-label">Blind</div>
+      </div>
+      <div class="ai-zone">
+        <div style="display:flex;gap:3px;">
+          <div class="card-back card-xs"></div>
+          <div class="card-back card-xs"></div>
+        </div>
+        <div class="ai-zone-label">Table</div>
+      </div>
+      <div style="flex:1;"></div>
+      <div class="ai-zone">
+        <div style="position:relative;width:30px;height:40px;">
+          <div style="position:absolute;left:4px;top:2px;width:22px;height:32px;background:var(--back);border-radius:4px;border:1px solid rgba(255,255,255,0.08);"></div>
+          <div style="position:absolute;left:8px;top:0;width:22px;height:32px;background:var(--back);border-radius:4px;border:1px solid rgba(255,255,255,0.08);"></div>
+        </div>
+        <div class="ai-zone-label">Hand (0)</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="divider-line"></div>
+  <div style="flex:1;"></div>
+
+  <div class="center-area">
+    <div style="width:80px;"></div>
+    <div style="flex:1;display:flex;justify-content:center;align-items:center;gap:18px;">
+      <!-- Empty pile after burn -->
+      <div style="width:74px;height:104px;border-radius:10px;border:2px dashed rgba(224,92,75,0.3);display:flex;align-items:center;justify-content:center;position:relative;">
+        <span style="font-size:22px;opacity:0.4;">✕</span>
+        <div class="pile-count" style="color:var(--burn);border-color:rgba(224,92,75,0.3);">burned</div>
+      </div>
+      <!-- 4× 10s fanned showing they were played -->
+      <div style="position:relative;width:86px;height:110px;">
+        <div class="pile-card" style="transform:rotate(-9deg) translate(-18px, 4px);z-index:1;"><div style="font-size:18px;font-weight:800;color:var(--burn);">10</div><div style="color:var(--burn);">♣</div></div>
+        <div class="pile-card" style="transform:rotate(-3deg) translate(-6px, 1px);z-index:2;"><div style="font-size:18px;font-weight:800;color:var(--burn);">10</div><div style="color:var(--burn);">♦</div></div>
+        <div class="pile-card" style="transform:rotate(3deg) translate(6px, -1px);z-index:3;"><div style="font-size:18px;font-weight:800;color:var(--burn);">10</div><div style="color:var(--burn);">♥</div></div>
+        <div class="pile-card" style="transform:rotate(9deg) translate(18px, -4px);z-index:4;"><div style="font-size:18px;font-weight:800;color:var(--burn);">10</div><div style="color:var(--burn);">♠</div></div>
+      </div>
+      <!-- Deck -->
+      <div class="deck-stack" style="margin-left:8px;">
+        <div class="deck-card" style="top:6px;left:3px;"></div>
+        <div class="deck-card" style="top:3px;left:1.5px;"></div>
+        <div class="deck-card" style="top:0;left:0;"></div>
+        <div class="deck-count">14</div>
+      </div>
+    </div>
+    <div style="width:80px;"></div>
+  </div>
+
+  <div style="flex:1;"></div>
+  <div class="divider-line"></div>
+
+  <div class="msg-bar burn-msg">Pile burned — go again!</div>
+
+  <div class="player-area">
+    <div class="player-header">
+      <span class="you-label">YOU</span>
+      <span class="phase-label">HAND</span>
+    </div>
+    <div class="faceup-row" style="margin-bottom:8px;">
+      <div class="card card-sm red"><span style="font-size:13px;font-weight:800;">2</span><span style="font-size:10px;">♦</span></div>
+      <div class="card card-sm red"><span style="font-size:13px;font-weight:800;">J</span><span style="font-size:10px;">♥</span></div>
+      <div class="card card-sm black"><span style="font-size:13px;font-weight:800;">A</span><span style="font-size:10px;">♠</span></div>
+      <span class="zone-label">Table</span>
+    </div>
+    <div class="hand-scroll">
+      <div class="card card-md red"><span style="font-size:15px;font-weight:800;">5</span><span style="font-size:11px;">♥</span></div>
+      <div class="card card-md black"><span style="font-size:15px;font-weight:800;">8</span><span style="font-size:11px;">♣</span></div>
+      <div class="card card-md red"><span style="font-size:15px;font-weight:800;">Q</span><span style="font-size:11px;">♦</span></div>
+    </div>
+  </div>
+
+  <div class="action-btns">
+    <div class="btn-action btn-play-cards" style="background:var(--burn);">Play Card</div>
+    <div class="btn-action btn-pickup">
+      <span style="margin-right:4px;">↓</span> Pick Pile
+    </div>
+  </div>
+</div>
+
+<!-- ══ SCREEN 5: WIN ══ -->
+<div class="screen" id="gameover">
+  <div class="dynamic-island"></div>
+
+  <!-- confetti -->
+  <div class="confetti-dot" style="width:8px;height:12px;background:var(--valid);top:80px;left:40px;transform:rotate(25deg);"></div>
+  <div class="confetti-dot" style="width:6px;height:10px;background:var(--burn);top:110px;left:80px;transform:rotate(-15deg);"></div>
+  <div class="confetti-dot" style="width:10px;height:6px;background:var(--reset);top:70px;left:140px;transform:rotate(45deg);"></div>
+  <div class="confetti-dot" style="width:7px;height:11px;background:var(--low);top:95px;left:200px;transform:rotate(-30deg);"></div>
+  <div class="confetti-dot" style="width:9px;height:7px;background:var(--hint);top:75px;left:260px;transform:rotate(10deg);"></div>
+  <div class="confetti-dot" style="width:6px;height:12px;background:var(--valid);top:100px;left:320px;transform:rotate(-50deg);"></div>
+  <div class="confetti-dot" style="width:8px;height:8px;background:var(--burn);top:65px;left:360px;transform:rotate(35deg);border-radius:50%;"></div>
+  <div class="confetti-dot" style="width:11px;height:6px;background:var(--reset);top:140px;left:30px;transform:rotate(-20deg);"></div>
+  <div class="confetti-dot" style="width:7px;height:10px;background:var(--low);top:130px;left:170px;transform:rotate(60deg);"></div>
+  <div class="confetti-dot" style="width:9px;height:9px;background:var(--valid);top:155px;left:340px;transform:rotate(-40deg);border-radius:50%;"></div>
+  <div class="confetti-dot" style="width:6px;height:11px;background:var(--hint);top:120px;left:100px;transform:rotate(15deg);"></div>
+  <div class="confetti-dot" style="width:10px;height:7px;background:var(--burn);top:165px;left:240px;transform:rotate(-25deg);"></div>
+  <!-- suit symbols as confetti -->
+  <div style="position:absolute;top:78px;left:55px;font-size:14px;color:var(--valid);opacity:0.7;transform:rotate(-15deg);">♠</div>
+  <div style="position:absolute;top:92px;left:180px;font-size:12px;color:var(--burn);opacity:0.6;transform:rotate(20deg);">♥</div>
+  <div style="position:absolute;top:68px;left:300px;font-size:15px;color:var(--reset);opacity:0.7;transform:rotate(-30deg);">♦</div>
+  <div style="position:absolute;top:145px;left:60px;font-size:11px;color:var(--low);opacity:0.6;transform:rotate(10deg);">♣</div>
+  <div style="position:absolute;top:135px;left:290px;font-size:13px;color:var(--hint);opacity:0.65;transform:rotate(-20deg);">♠</div>
+
+  <div class="status-bar">
+    <span class="status-time">9:41</span>
+    <div class="status-icons">
+      <svg width="17" height="12" viewBox="0 0 17 12"><rect x="0" y="3" width="3" height="9" rx="1"/><rect x="4.5" y="2" width="3" height="10" rx="1"/><rect x="9" y="0.5" width="3" height="11.5" rx="1"/><rect x="13.5" y="0" width="3" height="12" rx="1" opacity=".3"/></svg>
+      <svg width="25" height="12" viewBox="0 0 25 12"><rect x="0" y="1" width="22" height="10" rx="3" fill="none" stroke="currentColor" stroke-width="1"/><rect x="23" y="4" width="2" height="4" rx="1"/><rect x="1.5" y="2.5" width="17" height="7" rx="2"/></svg>
+    </div>
+  </div>
+
+  <div class="gameover-content">
+    <div class="win-symbol">♠</div>
+    <div style="text-align:center;">
+      <div class="win-title">You Win!</div>
+      <div class="win-sub">You cleared your hand first</div>
+    </div>
+
+    <div class="stats-grid">
+      <div class="stats-row">
+        <div class="stat-cell">
+          <div class="stat-value">2:47</div>
+          <div class="stat-label">Time</div>
+        </div>
+        <div style="width:1px;background:var(--border);margin:10px 0;"></div>
+        <div class="stat-cell">
+          <div class="stat-value">2</div>
+          <div class="stat-label">Burns</div>
+        </div>
+      </div>
+      <div style="height:1px;background:var(--border);"></div>
+      <div class="stats-row">
+        <div class="stat-cell">
+          <div class="stat-value">5</div>
+          <div class="stat-label">Best Streak</div>
+        </div>
+        <div style="width:1px;background:var(--border);margin:10px 0;"></div>
+        <div class="stat-cell">
+          <div class="stat-value">2/3</div>
+          <div class="stat-label">Blind Luck</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="gameover-btns">
+      <div class="btn-rematch">Play Again</div>
+      <div class="btn-home">Home</div>
+    </div>
+  </div>
+</div>
+
+</body>
+</html>

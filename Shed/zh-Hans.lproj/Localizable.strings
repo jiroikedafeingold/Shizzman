@@ -1,0 +1,132 @@
+// Home
+"home.subtitle"     = "臭牌 · 1 对 AI";
+"home.info1"        = "52张牌，发给双方玩家";
+"home.info2"        = "出≥顶牌的牌，或拿起牌堆";
+"home.info3"        = "2重置 · 7强制低 · 10燃烧";
+"home.info4"        = "先出完所有牌者获胜";
+"home.play_button"  = "开始游戏";
+"home.resets"       = "重置";
+"home.forces_low"   = "强制≤7";
+"home.burns_pile"   = "燃烧牌堆";
+
+// Game
+"game.arrange_hand"    = "整理你的手牌";
+"game.opponent"        = "对手";
+"game.thinking"        = "思考中…";
+"game.cards_count"     = "%d张牌";
+"game.blind"           = "盲牌";
+"game.table"           = "桌面";
+"game.hand_count"      = "手牌 (%d)";
+"game.your_turn"       = "你的回合";
+"game.ai_thinking"     = "对手思考中…";
+"game.ai_turn"         = "对手的回合";
+"game.pick_pile"       = "拿起牌堆";
+"game.select_card"     = "选择一张牌";
+"game.play_card"       = "出牌";
+"game.play_cards"      = "出%d张牌";
+"game.you"             = "你";
+"game.tap_blind"       = "点击翻开盲牌";
+"game.phase_hand"      = "手牌";
+"game.phase_face_up"   = "桌面";
+"game.phase_face_down" = "盲牌";
+"game.dig_pile"        = "挖牌";
+
+// Messages
+"msg.arrange"       = "游戏开始前整理你的明牌";
+"msg.your_turn"     = "你的回合";
+"msg.ai_thinking"   = "对手正在思考…";
+"msg.you_picked_up" = "你拿起了牌堆";
+"msg.cant_play"     = "无法出牌——你拿起了牌堆";
+"msg.ai_flipped_bad"= "对手翻了一张坏牌并拿起了牌堆";
+"msg.ai_picked_up"  = "对手拿起了牌堆";
+"msg.burn_ten"      = "出了10——牌堆燃烧！再来一次";
+"msg.burn_quad"     = "四张%@——牌堆燃烧！再来一次";
+"msg.ai_burn_ten"   = "对手出了10——牌堆燃烧";
+"msg.ai_burn_quad"  = "对手凑齐四张%@——牌堆燃烧";
+"msg.tap_blind"     = "点击盲牌翻开它";
+"msg.select_play"   = "选择要出的牌——或拿起牌堆";
+"msg.no_valid_plays"= "没有可出的牌——拿起牌堆";
+"msg.ai_plays"      = "对手出了%@";
+"msg.ai_plays_n"    = "对手出了%d张%@";
+"msg.you_dug"       = "你用手牌换走了牌堆";
+"msg.blind_win"     = "盲牌好运 — 你赢了！";
+
+// Swap
+"swap.arrange_table"   = "整理你的桌面牌";
+"swap.instruction"     = "点击手牌和桌面牌进行交换";
+"swap.table_cards"     = "桌面牌（明牌）";
+"swap.your_hand"       = "你的手牌";
+"swap.ready"           = "准备好了——开始游戏";
+"swap.always_playable" = "总是可出";
+"swap.forces_low"      = "强制低牌";
+"swap.burns_pile"      = "燃烧牌堆";
+
+// Game over
+"gameover.you_win"      = "你赢了！";
+"gameover.you_lose"     = "你输了";
+"gameover.cleared_hand" = "你先清空了手牌";
+"gameover.ai_shed"      = "对手出完了所有牌";
+"gameover.time"         = "时间";
+"gameover.play_again"   = "再玩一次";
+"gameover.home"         = "首页";
+
+// Pile peek
+"pile_peek.title"    = "牌堆内容";
+"pile_peek.subtitle" = "%d张牌——从顶部开始";
+"pile_peek.top"      = "顶";
+
+// Rules
+"rules.title" = "如何游玩";
+"rules.done"  = "完成";
+
+"rules.objective.title" = "目标";
+"rules.objective.text"  = "第一个出完所有牌的玩家获胜——包括手牌、桌面牌和盲牌。";
+
+"rules.setup.title" = "准备";
+"rules.setup.text1" = "每位玩家得到3张盲牌（正面朝下）、3张桌面牌（正面朝上）和3张手牌。";
+"rules.setup.text2" = "游戏开始前，可以将任意手牌与桌面牌交换。";
+
+"rules.turn.title" = "轮到你时";
+"rules.turn.text1" = "出一张或多张相同点数的牌。牌面必须≥牌堆顶牌。";
+"rules.turn.text2" = "出牌后，只要牌库还有牌就补到3张。";
+"rules.turn.text3" = "无法出牌时，拿起整个牌堆加入手牌。";
+
+"rules.zones.title" = "牌区";
+"rules.zones.text1" = "先从手牌出牌，手牌出完后出桌面牌，再之后逐张翻开盲牌。";
+"rules.zones.text2" = "若翻开的盲牌无法出，则拿起牌堆和该牌。";
+
+"rules.special.title"   = "特殊牌";
+"rules.special.text2"   = "重置牌堆——可出在任何牌上。下一位玩家可以出任意牌。";
+"rules.special.text7"   = "强制低牌模式——下一位玩家只能出7或以下。连续7保持模式激活。";
+"rules.special.text10"  = "燃烧牌堆——移除所有牌。同一玩家再次出牌。";
+
+"rules.burn.title" = "燃烧牌堆";
+"rules.burn.text"  = "出10可燃烧牌堆。堆顶凑成四张同点也可燃烧。燃烧后立即再次出牌。";
+
+"rules.peek.title" = "查看牌堆";
+"rules.peek.text1" = "随时点击弃牌堆，从顶到底查看所有牌。（在设置中启用）";
+"rules.peek.text2" = "以此判断是否值得拿起牌堆。";
+
+"rules.win.title" = "获胜";
+"rules.win.text"  = "先出完最后一张牌的玩家获胜。另一位玩家是Shizzman。";
+
+"rules.dig.title" = "挖牌（每局一次）";
+"rules.dig.text1" = "每局游戏一次，在从手牌出牌时点击挖牌，可将整手牌与弃牌堆互换。（在设置中启用）";
+"rules.dig.text2" = "旧手牌成为新牌堆（最小的牌在顶部）。牌堆中的牌成为新手牌。挖牌后你的回合立即结束。";
+
+// Settings
+"settings.title"             = "设置";
+"settings.done"              = "完成";
+"settings.section.gameplay"  = "游戏玩法";
+"settings.section.table_color" = "桌面颜色";
+"settings.dig.title"         = "挖牌";
+"settings.dig.subtitle"      = "每局一次，用手牌换走弃牌堆。";
+"settings.peek.title"        = "查看牌堆";
+"settings.peek.subtitle"     = "点击弃牌堆查看所有牌。";
+"settings.haptics.title"     = "触觉反馈";
+"settings.haptics.subtitle"  = "出牌和事件时的震动反馈。";
+
+// Game over stats
+"gameover.burns"       = "燃烧次数";
+"gameover.best_streak" = "最佳连胜";
+"gameover.blind_luck"  = "盲目幸运";

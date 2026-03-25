@@ -1,0 +1,132 @@
+// Home
+"home.subtitle"     = "Shizzman · 1 vs IA";
+"home.info1"        = "Jeu de 52 cartes, distribué aux deux joueurs";
+"home.info2"        = "Jouez ≥ la carte du dessus ou prenez le tas";
+"home.info3"        = "2 réinitialise · 7 force bas · 10 brûle";
+"home.info4"        = "Le premier à vider ses cartes gagne";
+"home.play_button"  = "Jouer";
+"home.resets"       = "Réinitialise";
+"home.forces_low"   = "Force ≤7";
+"home.burns_pile"   = "Brûle le tas";
+
+// Game
+"game.arrange_hand"    = "ARRANGEZ VOTRE MAIN";
+"game.opponent"        = "ADVERSAIRE";
+"game.thinking"        = "réfléchit…";
+"game.cards_count"     = "%d cartes";
+"game.blind"           = "Cachées";
+"game.table"           = "Table";
+"game.hand_count"      = "Main (%d)";
+"game.your_turn"       = "VOTRE TOUR";
+"game.ai_thinking"     = "ADVERSAIRE RÉFLÉCHIT…";
+"game.ai_turn"         = "TOUR DE L'ADVERSAIRE";
+"game.pick_pile"       = "Prendre Tas";
+"game.select_card"     = "Choisissez une carte";
+"game.play_card"       = "Jouer Carte";
+"game.play_cards"      = "Jouer %d Cartes";
+"game.you"             = "VOUS";
+"game.tap_blind"       = "Touchez pour retourner";
+"game.phase_hand"      = "MAIN";
+"game.phase_face_up"   = "TABLE";
+"game.phase_face_down" = "CACHÉE";
+"game.dig_pile"        = "Fouiller";
+
+// Messages
+"msg.arrange"       = "Arrangez vos cartes face visible avant de commencer";
+"msg.your_turn"     = "Votre tour";
+"msg.ai_thinking"   = "L'adversaire réfléchit…";
+"msg.you_picked_up" = "Vous avez pris le tas";
+"msg.cant_play"     = "Impossible de jouer — vous avez pris le tas";
+"msg.ai_flipped_bad"= "L'adversaire a retourné une mauvaise carte et a pris le tas";
+"msg.ai_picked_up"  = "L'adversaire a pris le tas";
+"msg.burn_ten"      = "10 joué — tas brûlé ! Rejouez";
+"msg.burn_quad"     = "Quatre %@s — tas brûlé ! Rejouez";
+"msg.ai_burn_ten"   = "L'adversaire a joué un 10 — tas brûlé";
+"msg.ai_burn_quad"  = "L'adversaire a complété quatre %@s — tas brûlé";
+"msg.tap_blind"     = "Touchez une carte cachée pour la retourner";
+"msg.select_play"   = "Choisissez des cartes à jouer — ou prenez le tas";
+"msg.no_valid_plays"= "Aucune carte jouable — prenez le tas";
+"msg.ai_plays"      = "L'adversaire joue %@";
+"msg.ai_plays_n"    = "L'adversaire joue %d× %@";
+"msg.you_dug"       = "Vous avez échangé votre main contre le tas";
+"msg.blind_win"     = "Chance aveugle — vous gagnez !";
+
+// Swap
+"swap.arrange_table"   = "ARRANGEZ VOTRE TABLE";
+"swap.instruction"     = "Touchez une carte en main et une sur la table pour les échanger";
+"swap.table_cards"     = "CARTES DE TABLE (face visible)";
+"swap.your_hand"       = "VOTRE MAIN";
+"swap.ready"           = "Prêt — Commencer";
+"swap.always_playable" = "Toujours jouable";
+"swap.forces_low"      = "Force bas";
+"swap.burns_pile"      = "Brûle le tas";
+
+// Game over
+"gameover.you_win"      = "Vous gagnez !";
+"gameover.you_lose"     = "Vous perdez";
+"gameover.cleared_hand" = "Vous avez vidé votre main en premier";
+"gameover.ai_shed"      = "L'adversaire s'est débarrassé de toutes ses cartes";
+"gameover.time"         = "Temps";
+"gameover.play_again"   = "Rejouer";
+"gameover.home"         = "Accueil";
+
+// Pile peek
+"pile_peek.title"    = "CONTENU DU TAS";
+"pile_peek.subtitle" = "%d cartes — du dessus";
+"pile_peek.top"    = "HAUT";
+
+// Rules
+"rules.title" = "Comment Jouer";
+"rules.done"  = "Terminé";
+
+"rules.objective.title" = "Objectif";
+"rules.objective.text"  = "Soyez le premier à vous débarrasser de toutes vos cartes — en main, sur la table et faces cachées.";
+
+"rules.setup.title" = "Préparation";
+"rules.setup.text1" = "Chaque joueur reçoit 3 cartes cachées (face vers le bas), 3 cartes de table (face visible) et 3 cartes en main.";
+"rules.setup.text2" = "Avant le début, vous pouvez échanger des cartes de votre main avec celles de la table.";
+
+"rules.turn.title" = "Jouer son Tour";
+"rules.turn.text1" = "Posez une ou plusieurs cartes du même rang sur le tas. Les cartes doivent être ≥ à la carte du dessus.";
+"rules.turn.text2" = "Après avoir joué, piochez jusqu'à avoir 3 cartes tant que la pioche le permet.";
+"rules.turn.text3" = "Si vous ne pouvez pas jouer, prenez tout le tas dans votre main.";
+
+"rules.zones.title" = "Zones de Cartes";
+"rules.zones.text1" = "Jouez d'abord depuis votre main. Ensuite les cartes de table, puis les cartes cachées une par une.";
+"rules.zones.text2" = "Si une carte cachée ne peut pas être jouée, vous prenez le tas et cette carte.";
+
+"rules.special.title"   = "Cartes Spéciales";
+"rules.special.text2"   = "Réinitialise le tas — jouable sur n'importe quelle carte. Le joueur suivant peut jouer n'importe quelle carte.";
+"rules.special.text7"   = "Force le mode bas — le joueur suivant doit jouer 7 ou moins. Plusieurs 7 maintiennent le mode bas.";
+"rules.special.text10"  = "Brûle le tas — retire toutes les cartes du jeu. Le même joueur rejoue.";
+
+"rules.burn.title" = "Brûler le Tas";
+"rules.burn.text"  = "Jouer un 10 brûle le tas. Compléter un carré au sommet le brûle aussi. Après un brûlage, vous rejouez immédiatement.";
+
+"rules.peek.title" = "Voir le Tas";
+"rules.peek.text1" = "Touchez le tas de défausse à tout moment pour voir toutes les cartes, du dessus vers le bas. (Activer dans Réglages)";
+"rules.peek.text2" = "Utilisez cela pour décider si prendre le tas en vaut la peine.";
+
+"rules.win.title" = "Victoire";
+"rules.win.text"  = "Le premier joueur à jouer sa dernière carte gagne. L'autre joueur est le Shizzman.";
+
+"rules.dig.title" = "La Fouille (une fois par partie)";
+"rules.dig.text1" = "Une fois par partie, lorsque vous jouez depuis votre main, appuyez sur Fouiller pour échanger toute votre main contre le tas de défausse. (Activer dans Réglages)";
+"rules.dig.text2" = "Votre ancienne main devient le nouveau tas (carte la plus basse sur le dessus). Les cartes du tas deviennent votre nouvelle main. Votre tour se termine immédiatement après la fouille.";
+
+// Settings
+"settings.title"             = "Réglages";
+"settings.done"              = "Terminé";
+"settings.section.gameplay"  = "Gameplay";
+"settings.section.table_color" = "Couleur de Table";
+"settings.dig.title"         = "Fouiller";
+"settings.dig.subtitle"      = "Échangez votre main contre le tas de défausse une fois par partie.";
+"settings.peek.title"        = "Voir le Tas";
+"settings.peek.subtitle"     = "Touchez le tas de défausse pour voir toutes les cartes.";
+"settings.haptics.title"     = "Haptique";
+"settings.haptics.subtitle"  = "Retour vibratoire lors des jeux de cartes et des événements.";
+
+// Game over stats
+"gameover.burns"       = "Brûlages";
+"gameover.best_streak" = "Meilleure Série";
+"gameover.blind_luck"  = "Chance Aveugle";

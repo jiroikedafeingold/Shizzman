@@ -1,0 +1,132 @@
+// Home
+"home.subtitle"     = "Shizzman · 1 vs KI";
+"home.info1"        = "52-Karten-Deck, an beide Spieler ausgeteilt";
+"home.info2"        = "Spiele ≥ die oberste Karte oder nimm den Stapel";
+"home.info3"        = "2 setzt zurück · 7 erzwingt niedrig · 10 verbrennt";
+"home.info4"        = "Wer zuerst alle Karten los ist, gewinnt";
+"home.play_button"  = "Spielen";
+"home.resets"       = "Zurücksetzen";
+"home.forces_low"   = "Erzwingt ≤7";
+"home.burns_pile"   = "Stapel verbrennen";
+
+// Game
+"game.arrange_hand"    = "HAND ANORDNEN";
+"game.opponent"        = "GEGNER";
+"game.thinking"        = "denkt…";
+"game.cards_count"     = "%d Karten";
+"game.blind"           = "Verdeckt";
+"game.table"           = "Tisch";
+"game.hand_count"      = "Hand (%d)";
+"game.your_turn"       = "DEIN ZUG";
+"game.ai_thinking"     = "GEGNER DENKT…";
+"game.ai_turn"         = "ZUG DES GEGNERS";
+"game.pick_pile"       = "Stapel nehmen";
+"game.select_card"     = "Karte auswählen";
+"game.play_card"       = "Karte spielen";
+"game.play_cards"      = "%d Karten spielen";
+"game.you"             = "DU";
+"game.tap_blind"       = "Antippen zum Aufdecken";
+"game.phase_hand"      = "HAND";
+"game.phase_face_up"   = "TISCH";
+"game.phase_face_down" = "VERDECKT";
+"game.dig_pile"        = "Graben";
+
+// Messages
+"msg.arrange"       = "Ordne deine aufgedeckten Karten vor dem Spiel an";
+"msg.your_turn"     = "Dein Zug";
+"msg.ai_thinking"   = "Gegner denkt nach…";
+"msg.you_picked_up" = "Du hast den Stapel genommen";
+"msg.cant_play"     = "Kann nicht spielen — du hast den Stapel genommen";
+"msg.ai_flipped_bad"= "Gegner hat eine schlechte Karte aufgedeckt und den Stapel genommen";
+"msg.ai_picked_up"  = "Gegner hat den Stapel genommen";
+"msg.burn_ten"      = "10 gespielt — Stapel verbrannt! Nochmal";
+"msg.burn_quad"     = "Vier %@s — Stapel verbrannt! Nochmal";
+"msg.ai_burn_ten"   = "Gegner spielte eine 10 — Stapel verbrannt";
+"msg.ai_burn_quad"  = "Gegner vervollständigte vier %@s — Stapel verbrannt";
+"msg.tap_blind"     = "Verdeckte Karte antippen zum Aufdecken";
+"msg.select_play"   = "Karte(n) auswählen — oder Stapel nehmen";
+"msg.no_valid_plays"= "Keine gültigen Züge — Stapel nehmen";
+"msg.ai_plays"      = "Gegner spielt %@";
+"msg.ai_plays_n"    = "Gegner spielt %d× %@";
+"msg.you_dug"       = "Du hast deine Hand mit dem Stapel getauscht";
+"msg.blind_win"     = "Blindes Glück — du gewinnst!";
+
+// Swap
+"swap.arrange_table"   = "TISCH ANORDNEN";
+"swap.instruction"     = "Tippe auf eine Handkarte und eine Tischkarte, um sie zu tauschen";
+"swap.table_cards"     = "TISCHKARTEN (aufgedeckt)";
+"swap.your_hand"       = "DEINE HAND";
+"swap.ready"           = "Bereit — Spiel starten";
+"swap.always_playable" = "Immer spielbar";
+"swap.forces_low"      = "Zwingt niedrig";
+"swap.burns_pile"      = "Stapel verbrennen";
+
+// Game over
+"gameover.you_win"      = "Du gewinnst!";
+"gameover.you_lose"     = "Du verlierst";
+"gameover.cleared_hand" = "Du hast deine Hand zuerst geleert";
+"gameover.ai_shed"      = "Der Gegner hat alle Karten losgeworden";
+"gameover.time"         = "Zeit";
+"gameover.play_again"   = "Nochmal spielen";
+"gameover.home"         = "Startseite";
+
+// Pile peek
+"pile_peek.title"    = "STAPELINHALT";
+"pile_peek.subtitle" = "%d Karten — von oben";
+"pile_peek.top"      = "OBEN";
+
+// Rules
+"rules.title" = "Spielanleitung";
+"rules.done"  = "Fertig";
+
+"rules.objective.title" = "Ziel";
+"rules.objective.text"  = "Sei der erste Spieler, der alle Karten loswird — Handkarten, Tischkarten und verdeckte Karten.";
+
+"rules.setup.title" = "Vorbereitung";
+"rules.setup.text1" = "Jeder Spieler erhält 3 verdeckte Karten, 3 Tischkarten (aufgedeckt) und 3 Handkarten.";
+"rules.setup.text2" = "Vor Spielbeginn kannst du Handkarten gegen Tischkarten tauschen.";
+
+"rules.turn.title" = "Einen Zug machen";
+"rules.turn.text1" = "Spiele eine oder mehrere Karten gleichen Ranges auf den Stapel. Die Karten müssen ≥ der obersten Karte sein.";
+"rules.turn.text2" = "Nach dem Spielen ziehst du bis zu 3 Karten nach, solange das Deck Karten hat.";
+"rules.turn.text3" = "Wenn du nicht spielen kannst, nimmst du den gesamten Stapel auf die Hand.";
+
+"rules.zones.title" = "Kartenzonen";
+"rules.zones.text1" = "Erst spielst du von der Hand. Dann von den Tischkarten. Zuletzt deckst du verdeckte Karten einzeln auf.";
+"rules.zones.text2" = "Kann eine verdeckte Karte nicht gespielt werden, nimmst du den Stapel plus diese Karte.";
+
+"rules.special.title"   = "Spezialkarten";
+"rules.special.text2"   = "Setzt den Stapel zurück — auf alles spielbar. Der nächste Spieler kann jede Karte legen.";
+"rules.special.text7"   = "Erzwingt Niedrigmodus — der nächste Spieler muss 7 oder weniger spielen. Mehrere 7 halten den Modus aktiv.";
+"rules.special.text10"  = "Verbrennt den Stapel — entfernt alle Karten. Derselbe Spieler zieht erneut.";
+
+"rules.burn.title" = "Stapel verbrennen";
+"rules.burn.text"  = "Eine 10 verbrennt den Stapel. Auch vier gleiche Karten oben verbrennen ihn. Nach dem Verbrennen spielst du sofort weiter.";
+
+"rules.peek.title" = "Stapel ansehen";
+"rules.peek.text1" = "Tippe auf den Ablagestapel, um alle Karten von oben nach unten zu sehen. (In Einstellungen aktivieren)";
+"rules.peek.text2" = "So kannst du entscheiden, ob es sich lohnt, den Stapel zu nehmen.";
+
+"rules.win.title" = "Sieg";
+"rules.win.text"  = "Wer zuerst seine letzte Karte spielt, gewinnt. Der andere Spieler ist der Shizzman.";
+
+"rules.dig.title" = "Das Graben (einmal pro Spiel)";
+"rules.dig.text1" = "Einmal pro Spiel kannst du, während du von der Hand spielst, auf Graben tippen, um deine gesamte Hand mit dem Ablagestapel zu tauschen. (In Einstellungen aktivieren)";
+"rules.dig.text2" = "Deine alte Hand wird zum neuen Stapel (niedrigste Karte oben). Die Stapelkarten werden deine neue Hand. Dein Zug endet sofort nach dem Graben.";
+
+// Settings
+"settings.title"             = "Einstellungen";
+"settings.done"              = "Fertig";
+"settings.section.gameplay"  = "Spielmechanik";
+"settings.section.table_color" = "Tischfarbe";
+"settings.dig.title"         = "Graben";
+"settings.dig.subtitle"      = "Tausche deine Hand einmal pro Spiel mit dem Ablagestapel.";
+"settings.peek.title"        = "Stapel ansehen";
+"settings.peek.subtitle"     = "Antippen des Ablagestapels, um alle Karten zu sehen.";
+"settings.haptics.title"     = "Haptik";
+"settings.haptics.subtitle"  = "Vibrationsfeedback beim Kartenspielen und bei Ereignissen.";
+
+// Game over stats
+"gameover.burns"       = "Verbrennungen";
+"gameover.best_streak" = "Beste Serie";
+"gameover.blind_luck"  = "Glück im Dunkeln";

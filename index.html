@@ -1,0 +1,607 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Shizzman — Card Game for iPhone</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --felt:      #1a3a2a;
+      --surface:   #1e2a22;
+      --elevated:  #243020;
+      --border:    rgba(255,255,255,0.08);
+      --primary:   #f0ede6;
+      --secondary: rgba(240,237,230,0.55);
+      --tertiary:  rgba(240,237,230,0.30);
+      --valid:     #4caf7d;
+      --burn:      #e05c4b;
+      --reset:     #5b9bd5;
+      --low:       #c9a227;
+      --hint:      #a07cde;
+      --r-md:      12px;
+      --r-lg:      20px;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background: var(--felt);
+      color: var(--primary);
+      line-height: 1.6;
+    }
+
+    /* ── NAV ── */
+    nav {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: rgba(26,58,42,0.88);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      border-bottom: 1px solid var(--border);
+    }
+    .nav-inner {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 0 24px;
+      height: 56px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .nav-logo {
+      font-size: 18px;
+      font-weight: 700;
+      letter-spacing: 0.5px;
+      color: var(--primary);
+      text-decoration: none;
+    }
+    .nav-logo span { color: var(--valid); }
+    .nav-links {
+      display: flex;
+      gap: 28px;
+      list-style: none;
+    }
+    .nav-links a {
+      color: var(--secondary);
+      text-decoration: none;
+      font-size: 14px;
+      transition: color 0.2s;
+    }
+    .nav-links a:hover { color: var(--primary); }
+
+    /* ── SECTIONS ── */
+    section { padding: 80px 24px; }
+    .container { max-width: 900px; margin: 0 auto; }
+
+    /* ── HERO ── */
+    #hero {
+      padding: 100px 24px 80px;
+      text-align: center;
+    }
+    .hero-badge {
+      display: inline-block;
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 2.5px;
+      text-transform: uppercase;
+      color: var(--valid);
+      background: rgba(76,175,125,0.12);
+      border: 1px solid rgba(76,175,125,0.3);
+      border-radius: 100px;
+      padding: 5px 14px;
+      margin-bottom: 28px;
+    }
+    .hero-title {
+      font-size: clamp(48px, 8vw, 82px);
+      font-weight: 800;
+      letter-spacing: -2px;
+      line-height: 1.05;
+      margin-bottom: 20px;
+    }
+    .hero-title .accent { color: var(--burn); }
+    .hero-subtitle {
+      font-size: 18px;
+      color: var(--secondary);
+      max-width: 520px;
+      margin: 0 auto 16px;
+    }
+    .hero-tagline {
+      font-size: 13px;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      color: var(--tertiary);
+      margin-bottom: 44px;
+    }
+    .hero-cards {
+      display: flex;
+      justify-content: center;
+      gap: 14px;
+      flex-wrap: wrap;
+      margin-bottom: 52px;
+    }
+    .card-chip {
+      width: 62px;
+      height: 88px;
+      border-radius: 10px;
+      background: #f7f3eb;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 4px;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.45);
+      font-weight: 800;
+      font-size: 22px;
+      line-height: 1;
+      position: relative;
+    }
+    .card-chip .suit { font-size: 16px; }
+    .card-chip.red  { color: #d42b2b; }
+    .card-chip.black { color: #1a1a1a; }
+    .card-chip .badge {
+      position: absolute;
+      bottom: -6px;
+      right: -6px;
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 9px;
+      font-weight: 700;
+      color: #fff;
+      border: 2px solid var(--felt);
+    }
+    .badge-burn   { background: var(--burn); }
+    .badge-reset  { background: var(--reset); }
+    .badge-low    { background: var(--low); }
+    .cta-group { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 14px 28px;
+      border-radius: var(--r-md);
+      font-size: 15px;
+      font-weight: 600;
+      text-decoration: none;
+      transition: opacity 0.2s, transform 0.15s;
+      cursor: pointer;
+      border: none;
+    }
+    .btn:hover { opacity: 0.88; transform: translateY(-1px); }
+    .btn-primary { background: var(--valid); color: #fff; }
+    .btn-secondary {
+      background: transparent;
+      color: var(--secondary);
+      border: 1px solid var(--border);
+    }
+    .btn-secondary:hover { color: var(--primary); border-color: rgba(255,255,255,0.2); }
+
+    /* ── DIVIDER ── */
+    .divider {
+      height: 1px;
+      background: var(--border);
+      max-width: 900px;
+      margin: 0 auto;
+    }
+
+    /* ── HOW TO PLAY ── */
+    #how-to-play { background: var(--surface); }
+    .section-label {
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: var(--tertiary);
+      margin-bottom: 12px;
+    }
+    .section-title {
+      font-size: clamp(28px, 4vw, 42px);
+      font-weight: 700;
+      letter-spacing: -1px;
+      margin-bottom: 48px;
+    }
+    .rules-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 16px;
+    }
+    .rule-card {
+      background: var(--elevated);
+      border: 1px solid var(--border);
+      border-radius: var(--r-lg);
+      padding: 24px;
+    }
+    .rule-card h3 {
+      font-size: 16px;
+      font-weight: 600;
+      margin-bottom: 8px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .rule-icon {
+      width: 32px;
+      height: 32px;
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 15px;
+      font-weight: 800;
+      flex-shrink: 0;
+    }
+    .rule-card p { font-size: 14px; color: var(--secondary); }
+
+    /* ── SPECIALS ── */
+    #specials { padding-top: 0; }
+    #specials .container { padding-top: 80px; }
+    .specials-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 16px;
+    }
+    .special-card {
+      border-radius: var(--r-lg);
+      padding: 28px 24px;
+      border: 1px solid;
+    }
+    .special-card.burn   { background: rgba(224,92,75,0.08);  border-color: rgba(224,92,75,0.25); }
+    .special-card.reset  { background: rgba(91,155,213,0.08); border-color: rgba(91,155,213,0.25); }
+    .special-card.low    { background: rgba(201,162,39,0.08); border-color: rgba(201,162,39,0.25); }
+    .special-rank {
+      font-size: 36px;
+      font-weight: 800;
+      line-height: 1;
+      margin-bottom: 8px;
+    }
+    .special-card.burn  .special-rank { color: var(--burn); }
+    .special-card.reset .special-rank { color: var(--reset); }
+    .special-card.low   .special-rank { color: var(--low); }
+    .special-card h3 {
+      font-size: 14px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      margin-bottom: 10px;
+    }
+    .special-card p { font-size: 14px; color: var(--secondary); }
+
+    /* ── FEATURES ── */
+    #features { background: var(--surface); }
+    .features-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 16px;
+    }
+    .feature {
+      display: flex;
+      gap: 14px;
+      align-items: flex-start;
+    }
+    .feature-icon {
+      width: 40px;
+      height: 40px;
+      border-radius: 10px;
+      background: var(--elevated);
+      border: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 18px;
+      flex-shrink: 0;
+    }
+    .feature h4 { font-size: 15px; font-weight: 600; margin-bottom: 4px; }
+    .feature p  { font-size: 13px; color: var(--secondary); }
+
+    /* ── PRIVACY ── */
+    #privacy { background: var(--elevated); }
+    .privacy-box {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--r-lg);
+      padding: 40px;
+    }
+    .privacy-box h3 {
+      font-size: 18px;
+      font-weight: 600;
+      margin: 32px 0 10px;
+      color: var(--primary);
+    }
+    .privacy-box h3:first-child { margin-top: 0; }
+    .privacy-box p, .privacy-box li {
+      font-size: 15px;
+      color: var(--secondary);
+      margin-bottom: 10px;
+    }
+    .privacy-box ul {
+      padding-left: 20px;
+      margin-bottom: 10px;
+    }
+    .privacy-box li { margin-bottom: 4px; }
+    .privacy-date {
+      font-size: 12px;
+      color: var(--tertiary);
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      margin-bottom: 28px;
+    }
+
+    /* ── CONTACT ── */
+    #contact { text-align: center; }
+    .contact-card {
+      display: inline-block;
+      background: var(--elevated);
+      border: 1px solid var(--border);
+      border-radius: var(--r-lg);
+      padding: 40px 52px;
+      margin-top: 32px;
+    }
+    .contact-card p { color: var(--secondary); font-size: 15px; margin-bottom: 20px; }
+    .contact-email {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      color: var(--valid);
+      font-size: 17px;
+      font-weight: 600;
+      text-decoration: none;
+      transition: opacity 0.2s;
+    }
+    .contact-email:hover { opacity: 0.75; }
+
+    /* ── FOOTER ── */
+    footer {
+      border-top: 1px solid var(--border);
+      padding: 28px 24px;
+      text-align: center;
+      font-size: 13px;
+      color: var(--tertiary);
+    }
+    footer a { color: var(--tertiary); text-decoration: none; }
+    footer a:hover { color: var(--secondary); }
+    .footer-inner {
+      max-width: 900px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 600px) {
+      nav { display: none; }
+      .privacy-box { padding: 24px; }
+      .contact-card { padding: 32px 24px; }
+      .footer-inner { justify-content: center; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-inner">
+    <a class="nav-logo" href="#hero">Shizzman<span>.</span></a>
+    <ul class="nav-links">
+      <li><a href="#how-to-play">How to Play</a></li>
+      <li><a href="#features">Features</a></li>
+      <li><a href="#privacy">Privacy</a></li>
+      <li><a href="#contact">Support / Contact</a></li>
+    </ul>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section id="hero">
+  <div class="container">
+    <div class="hero-badge">iPhone · Card Game</div>
+    <h1 class="hero-title">Don't be the<br><span class="accent">Shizzman.</span></h1>
+    <p class="hero-subtitle">The classic card game, polished for iPhone. One deck, two players, zero mercy.</p>
+    <p class="hero-tagline">You vs the Opponent · 52 Cards · First to clear wins</p>
+
+    <div class="hero-cards">
+      <div class="card-chip black">2<span class="suit">♠</span><span class="badge badge-reset">↺</span></div>
+      <div class="card-chip red">7<span class="suit">♥</span><span class="badge badge-low">↓</span></div>
+      <div class="card-chip red">10<span class="suit">♦</span><span class="badge badge-burn">✕</span></div>
+      <div class="card-chip black">A<span class="suit">♣</span></div>
+    </div>
+
+    <div class="cta-group">
+      <a class="btn btn-primary" href="#how-to-play">Learn to Play</a>
+      <a class="btn btn-secondary" href="#contact">Get in Touch</a>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- HOW TO PLAY -->
+<section id="how-to-play">
+  <div class="container">
+    <p class="section-label">The Rules</p>
+    <h2 class="section-title">How to Play</h2>
+    <div class="rules-grid">
+      <div class="rule-card">
+        <h3><span class="rule-icon" style="background:rgba(76,175,125,0.12);color:var(--valid)">♠</span>Setup</h3>
+        <p>Each player gets 3 blind cards face-down, 3 table cards face-up, and 3 hand cards. Before the game starts, swap any hand card with a table card to build your best layout.</p>
+      </div>
+      <div class="rule-card">
+        <h3><span class="rule-icon" style="background:rgba(91,155,213,0.12);color:var(--reset)">▶</span>Taking a Turn</h3>
+        <p>Play one or more cards of the same rank onto the pile. The card must be equal to or higher than the top card. After playing, draw back up to 3 hand cards while the deck lasts.</p>
+      </div>
+      <div class="rule-card">
+        <h3><span class="rule-icon" style="background:rgba(224,92,75,0.12);color:var(--burn)">↓</span>Can't Play?</h3>
+        <p>If you have no valid plays, pick up the entire pile — it becomes part of your hand. The other player then takes their turn.</p>
+      </div>
+      <div class="rule-card">
+        <h3><span class="rule-icon" style="background:rgba(201,162,39,0.12);color:var(--low)">⬡</span>Card Zones</h3>
+        <p>Play from your hand first. Once empty, play from your table cards. When those are gone, flip blind cards one at a time. A blind card that can't be played means you take the pile plus that card.</p>
+      </div>
+      <div class="rule-card">
+        <h3><span class="rule-icon" style="background:rgba(160,124,222,0.12);color:var(--hint)">🏆</span>Winning</h3>
+        <p>The first player to play their last card wins. The other player is crowned the <strong>Shizzman</strong> — and has no one to blame but themselves.</p>
+      </div>
+      <div class="rule-card">
+        <h3><span class="rule-icon" style="background:rgba(224,92,75,0.12);color:var(--burn)">4×</span>Four of a Kind</h3>
+        <p>Playing four cards of the same rank on top of the pile burns it instantly — the cards are removed from play and you go again immediately.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SPECIAL CARDS -->
+<section id="specials">
+  <div class="container">
+    <p class="section-label">Special Cards</p>
+    <h2 class="section-title">Cards with superpowers.</h2>
+    <div class="specials-grid">
+      <div class="special-card reset">
+        <div class="special-rank">2</div>
+        <h3>Reset</h3>
+        <p>Resets the pile — playable on anything. The next player can play any card they like.</p>
+      </div>
+      <div class="special-card low">
+        <div class="special-rank">7</div>
+        <h3>Forces Low</h3>
+        <p>Activates low mode — the next player must play a 7 or lower. Stacking 7s keeps low mode active.</p>
+      </div>
+      <div class="special-card burn">
+        <div class="special-rank">10</div>
+        <h3>Burns the Pile</h3>
+        <p>Removes all cards in the pile from play. The same player goes again immediately.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- FEATURES -->
+<section id="features">
+  <div class="container">
+    <p class="section-label">The App</p>
+    <h2 class="section-title">Built for iPhone.</h2>
+    <div class="features-grid">
+      <div class="feature">
+        <div class="feature-icon">🃏</div>
+        <div>
+          <h4>Smart Opponent</h4>
+          <p>A competent AI opponent that keeps the pressure on — no pushovers.</p>
+        </div>
+      </div>
+      <div class="feature">
+        <div class="feature-icon">🔍</div>
+        <div>
+          <h4>Pile Peek</h4>
+          <p>Optionally tap the discard pile to inspect every card inside before deciding your move.</p>
+        </div>
+      </div>
+      <div class="feature">
+        <div class="feature-icon">⇄</div>
+        <div>
+          <h4>The Dig</h4>
+          <p>Once per game, swap your entire hand with the discard pile — a high-risk, high-reward move.</p>
+        </div>
+      </div>
+      <div class="feature">
+        <div class="feature-icon">🎨</div>
+        <div>
+          <h4>Table Colours</h4>
+          <p>Choose from six felt colours to personalise your table.</p>
+        </div>
+      </div>
+      <div class="feature">
+        <div class="feature-icon">📳</div>
+        <div>
+          <h4>Haptic Feedback</h4>
+          <p>Tactile responses for burns, resets, and key plays — feels great in the hand.</p>
+        </div>
+      </div>
+      <div class="feature">
+        <div class="feature-icon">🎉</div>
+        <div>
+          <h4>Win Celebration</h4>
+          <p>Clear your cards first and enjoy a well-earned confetti shower.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- PRIVACY POLICY -->
+<section id="privacy">
+  <div class="container">
+    <p class="section-label">Legal</p>
+    <h2 class="section-title">Privacy Policy</h2>
+    <div class="privacy-box">
+      <p class="privacy-date">Effective date: March 2026</p>
+
+      <h3>Overview</h3>
+      <p>Shizzman is a single-player offline card game. We take your privacy seriously — which is straightforward here, because the app collects no personal data whatsoever.</p>
+
+      <h3>Information We Collect</h3>
+      <p>We do not collect, transmit, store, or share any personal information. Specifically:</p>
+      <ul>
+        <li>No account or registration is required to play.</li>
+        <li>No analytics, tracking SDKs, or advertising SDKs are included in the app.</li>
+        <li>No usage data, crash reports, or diagnostics are sent to us or any third party.</li>
+        <li>No location, contacts, camera, microphone, or any other device data is accessed.</li>
+      </ul>
+
+      <h3>Local Data</h3>
+      <p>Your settings (table colour, haptics preference, Dig and Pile Peek toggles) are stored locally on your device using iOS standard storage (UserDefaults). This data never leaves your device and is not accessible to us.</p>
+
+      <h3>Third-Party Services</h3>
+      <p>Shizzman does not integrate with any third-party services, analytics providers, or advertising networks.</p>
+
+      <h3>Children's Privacy</h3>
+      <p>Shizzman does not collect data from anyone, including children under the age of 13. The game contains no age-inappropriate content.</p>
+
+      <h3>Changes to This Policy</h3>
+      <p>If we ever update this policy, the new version will be posted here with an updated effective date. Given the nature of the app, we do not anticipate any material changes.</p>
+
+      <h3>Contact</h3>
+      <p>Questions about this privacy policy? Email us at <a href="mailto:apps@feingold5.com" style="color:var(--valid)">apps@feingold5.com</a>.</p>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact">
+  <div class="container">
+    <p class="section-label">Support / Get in Touch</p>
+    <h2 class="section-title">Say hello.</h2>
+    <div class="contact-card">
+      <p>Questions, feedback, or bug reports — we'd love to hear from you.</p>
+      <a class="contact-email" href="mailto:apps@feingold5.com">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><polyline points="2,4 12,13 22,4"/></svg>
+        apps@feingold5.com
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-inner">
+    <span>© 2026 Shizzman. All rights reserved.</span>
+    <div style="display:flex;gap:20px">
+      <a href="#privacy">Privacy Policy</a>
+      <a href="#contact">Contact</a>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>

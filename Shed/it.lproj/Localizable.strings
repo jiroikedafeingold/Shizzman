@@ -1,0 +1,132 @@
+// Home
+"home.subtitle"     = "Shizzman · 1 vs IA";
+"home.info1"        = "Mazzo da 52 carte, distribuito a entrambi i giocatori";
+"home.info2"        = "Gioca ≥ la carta in cima o prendi il mazzo";
+"home.info3"        = "2 azzera · 7 forza basso · 10 brucia";
+"home.info4"        = "Il primo a eliminare tutte le carte vince";
+"home.play_button"  = "Gioca";
+"home.resets"       = "Azzera";
+"home.forces_low"   = "Forza ≤7";
+"home.burns_pile"   = "Brucia il mazzo";
+
+// Game
+"game.arrange_hand"    = "DISPONI LA MANO";
+"game.opponent"        = "AVVERSARIO";
+"game.thinking"        = "pensa…";
+"game.cards_count"     = "%d carte";
+"game.blind"           = "Coperta";
+"game.table"           = "Tavolo";
+"game.hand_count"      = "Mano (%d)";
+"game.your_turn"       = "IL TUO TURNO";
+"game.ai_thinking"     = "AVVERSARIO PENSA…";
+"game.ai_turn"         = "TURNO DELL'AVVERSARIO";
+"game.pick_pile"       = "Prendi Mazzo";
+"game.select_card"     = "Seleziona una carta";
+"game.play_card"       = "Gioca Carta";
+"game.play_cards"      = "Gioca %d Carte";
+"game.you"             = "TU";
+"game.tap_blind"       = "Tocca per girare";
+"game.phase_hand"      = "MANO";
+"game.phase_face_up"   = "TAVOLO";
+"game.phase_face_down" = "COPERTA";
+"game.dig_pile"        = "Scava";
+
+// Messages
+"msg.arrange"       = "Disponi le carte scoperte prima di iniziare";
+"msg.your_turn"     = "Il tuo turno";
+"msg.ai_thinking"   = "L'avversario sta pensando…";
+"msg.you_picked_up" = "Hai preso il mazzo";
+"msg.cant_play"     = "Non puoi giocare — hai preso il mazzo";
+"msg.ai_flipped_bad"= "L'avversario ha girato una carta sbagliata e ha preso il mazzo";
+"msg.ai_picked_up"  = "L'avversario ha preso il mazzo";
+"msg.burn_ten"      = "10 giocato — mazzo bruciato! Ancora";
+"msg.burn_quad"     = "Quattro %@ — mazzo bruciato! Ancora";
+"msg.ai_burn_ten"   = "L'avversario ha giocato un 10 — mazzo bruciato";
+"msg.ai_burn_quad"  = "L'avversario ha completato quattro %@ — mazzo bruciato";
+"msg.tap_blind"     = "Tocca una carta coperta per girarla";
+"msg.select_play"   = "Seleziona carte da giocare — o prendi il mazzo";
+"msg.no_valid_plays"= "Nessuna giocata valida — prendi il mazzo";
+"msg.ai_plays"      = "L'avversario gioca %@";
+"msg.ai_plays_n"    = "L'avversario gioca %d× %@";
+"msg.you_dug"       = "Hai scambiato la tua mano con il mazzo";
+"msg.blind_win"     = "Fortuna cieca — hai vinto!";
+
+// Swap
+"swap.arrange_table"   = "DISPONI IL TAVOLO";
+"swap.instruction"     = "Tocca una carta in mano e una sul tavolo per scambiarle";
+"swap.table_cards"     = "CARTE DA TAVOLO (scoperte)";
+"swap.your_hand"       = "LA TUA MANO";
+"swap.ready"           = "Pronto — Inizia";
+"swap.always_playable" = "Sempre giocabile";
+"swap.forces_low"      = "Forza basso";
+"swap.burns_pile"      = "Brucia il mazzo";
+
+// Game over
+"gameover.you_win"      = "Hai vinto!";
+"gameover.you_lose"     = "Hai perso";
+"gameover.cleared_hand" = "Hai svuotato la mano per primo";
+"gameover.ai_shed"      = "L'avversario ha eliminato tutte le sue carte";
+"gameover.time"         = "Tempo";
+"gameover.play_again"   = "Gioca Ancora";
+"gameover.home"         = "Home";
+
+// Pile peek
+"pile_peek.title"    = "CONTENUTO DEL MAZZO";
+"pile_peek.subtitle" = "%d carte — dall'alto";
+"pile_peek.top"      = "CIMA";
+
+// Rules
+"rules.title" = "Come Giocare";
+"rules.done"  = "Fatto";
+
+"rules.objective.title" = "Obiettivo";
+"rules.objective.text"  = "Sii il primo a liberarti di tutte le carte — mano, tavolo e coperte.";
+
+"rules.setup.title" = "Preparazione";
+"rules.setup.text1" = "Ogni giocatore riceve 3 carte coperte (faccia in giù), 3 carte da tavolo (faccia in su) e 3 carte in mano.";
+"rules.setup.text2" = "Prima di iniziare, puoi scambiare qualsiasi carta della mano con una sul tavolo.";
+
+"rules.turn.title" = "Il Tuo Turno";
+"rules.turn.text1" = "Gioca una o più carte dello stesso valore sul mazzo. Le carte devono essere ≥ alla carta in cima.";
+"rules.turn.text2" = "Dopo aver giocato, pesca fino a 3 carte finché il mazzo ha carte.";
+"rules.turn.text3" = "Se non puoi giocare, prendi tutto il mazzo nella tua mano.";
+
+"rules.zones.title" = "Zone Carte";
+"rules.zones.text1" = "Prima giochi dalla mano. Poi le carte da tavolo, poi giri le carte coperte una alla volta.";
+"rules.zones.text2" = "Se una carta coperta non può essere giocata, prendi il mazzo più quella carta.";
+
+"rules.special.title"   = "Carte Speciali";
+"rules.special.text2"   = "Azzera il mazzo — giocabile su qualsiasi carta. Il prossimo giocatore può giocare qualsiasi carta.";
+"rules.special.text7"   = "Forza modalità bassa — il prossimo giocatore deve giocare 7 o meno. Più 7 mantengono la modalità attiva.";
+"rules.special.text10"  = "Brucia il mazzo — rimuove tutte le carte. Lo stesso giocatore gioca di nuovo.";
+
+"rules.burn.title" = "Bruciare il Mazzo";
+"rules.burn.text"  = "Giocare un 10 brucia il mazzo. Completare quattro carte uguali in cima lo brucia anche. Dopo aver bruciato, giochi subito.";
+
+"rules.peek.title" = "Vedere il Mazzo";
+"rules.peek.text1" = "Tocca il mazzo degli scarti in qualsiasi momento per vedere tutte le carte dall'alto verso il basso. (Attiva nelle Impostazioni)";
+"rules.peek.text2" = "Usalo per decidere se vale la pena prendere il mazzo.";
+
+"rules.win.title" = "Vittoria";
+"rules.win.text"  = "Il primo giocatore a giocare l'ultima carta vince. L'altro giocatore è lo Shizzman.";
+
+"rules.dig.title" = "Lo Scavo (una volta per partita)";
+"rules.dig.text1" = "Una volta per partita, mentre giochi dalla mano, tocca Scava per scambiare tutta la tua mano con il mazzo degli scarti. (Attiva nelle Impostazioni)";
+"rules.dig.text2" = "La tua vecchia mano diventa il nuovo mazzo (carta più bassa sopra). Le carte del mazzo diventano la tua nuova mano. Il tuo turno termina immediatamente dopo lo scavo.";
+
+// Settings
+"settings.title"             = "Impostazioni";
+"settings.done"              = "Fatto";
+"settings.section.gameplay"  = "Gameplay";
+"settings.section.table_color" = "Colore del Tavolo";
+"settings.dig.title"         = "Scava";
+"settings.dig.subtitle"      = "Scambia la tua mano con il mazzo degli scarti una volta per partita.";
+"settings.peek.title"        = "Guarda il Mazzo";
+"settings.peek.subtitle"     = "Tocca il mazzo degli scarti per vedere tutte le carte.";
+"settings.haptics.title"     = "Aptico";
+"settings.haptics.subtitle"  = "Feedback vibrazionale durante le giocate e gli eventi.";
+
+// Game over stats
+"gameover.burns"       = "Bruciature";
+"gameover.best_streak" = "Serie Migliore";
+"gameover.blind_luck"  = "Fortuna al Buio";

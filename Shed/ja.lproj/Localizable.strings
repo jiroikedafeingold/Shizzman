@@ -1,0 +1,132 @@
+// Home
+"home.subtitle"     = "シズマン · 1 vs AI";
+"home.info1"        = "52枚のデッキ、両プレイヤーに配布";
+"home.info2"        = "山の上のカード以上を出すか山を取る";
+"home.info3"        = "2はリセット · 7は低強制 · 10は燃やす";
+"home.info4"        = "先に全カードをなくした人の勝ち";
+"home.play_button"  = "プレイ";
+"home.resets"       = "リセット";
+"home.forces_low"   = "低強制 ≤7";
+"home.burns_pile"   = "山を燃やす";
+
+// Game
+"game.arrange_hand"    = "手札を並べ替える";
+"game.opponent"        = "対戦相手";
+"game.thinking"        = "考え中…";
+"game.cards_count"     = "%d枚";
+"game.blind"           = "裏向き";
+"game.table"           = "テーブル";
+"game.hand_count"      = "手札 (%d)";
+"game.your_turn"       = "あなたのターン";
+"game.ai_thinking"     = "対戦相手考え中…";
+"game.ai_turn"         = "対戦相手のターン";
+"game.pick_pile"       = "山を取る";
+"game.select_card"     = "カードを選ぶ";
+"game.play_card"       = "カードを出す";
+"game.play_cards"      = "%d枚出す";
+"game.you"             = "あなた";
+"game.tap_blind"       = "タップで裏向きを開く";
+"game.phase_hand"      = "手札";
+"game.phase_face_up"   = "テーブル";
+"game.phase_face_down" = "裏向き";
+"game.dig_pile"        = "掘る";
+
+// Messages
+"msg.arrange"       = "ゲーム開始前に表向きカードを並べ替えよう";
+"msg.your_turn"     = "あなたのターン";
+"msg.ai_thinking"   = "対戦相手が考え中…";
+"msg.you_picked_up" = "山を取りました";
+"msg.cant_play"     = "出せない — 山を取りました";
+"msg.ai_flipped_bad"= "対戦相手が悪いカードを引いて山を取りました";
+"msg.ai_picked_up"  = "対戦相手が山を取りました";
+"msg.burn_ten"      = "10を出した — 山が燃えた！もう一度";
+"msg.burn_quad"     = "%@が4枚 — 山が燃えた！もう一度";
+"msg.ai_burn_ten"   = "対戦相手が10を出した — 山が燃えた";
+"msg.ai_burn_quad"  = "対戦相手が%@を4枚揃えた — 山が燃えた";
+"msg.tap_blind"     = "裏向きカードをタップして開く";
+"msg.select_play"   = "出すカードを選ぶ — または山を取る";
+"msg.no_valid_plays"= "出せるカードがない — 山を取る";
+"msg.ai_plays"      = "対戦相手が%@を出した";
+"msg.ai_plays_n"    = "対戦相手が%d×%@を出した";
+"msg.you_dug"       = "手札と山を交換しました";
+"msg.blind_win"     = "ブラインド幸運 — あなたの勝ちです！";
+
+// Swap
+"swap.arrange_table"   = "テーブルを整理する";
+"swap.instruction"     = "手札とテーブルのカードをタップして交換する";
+"swap.table_cards"     = "テーブルカード（表向き）";
+"swap.your_hand"       = "手札";
+"swap.ready"           = "準備完了 — ゲーム開始";
+"swap.always_playable" = "いつでも出せる";
+"swap.forces_low"      = "低強制";
+"swap.burns_pile"      = "山を燃やす";
+
+// Game over
+"gameover.you_win"      = "勝利！";
+"gameover.you_lose"     = "敗北";
+"gameover.cleared_hand" = "先に手札をなくしました";
+"gameover.ai_shed"      = "対戦相手が全カードを出し切りました";
+"gameover.time"         = "時間";
+"gameover.play_again"   = "もう一度";
+"gameover.home"         = "ホーム";
+
+// Pile peek
+"pile_peek.title"    = "山の内容";
+"pile_peek.subtitle" = "%d枚 — 上から順";
+"pile_peek.top"      = "上";
+
+// Rules
+"rules.title" = "遊び方";
+"rules.done"  = "完了";
+
+"rules.objective.title" = "目的";
+"rules.objective.text"  = "手札、テーブル、裏向きカードすべてを先になくしたプレイヤーが勝利。";
+
+"rules.setup.title" = "準備";
+"rules.setup.text1" = "各プレイヤーに裏向き3枚、表向き3枚、手札3枚が配られる。";
+"rules.setup.text2" = "ゲーム開始前に手札とテーブルカードを自由に交換できる。";
+
+"rules.turn.title" = "ターンの進め方";
+"rules.turn.text1" = "山の上のカード以上の同じランクのカードを1枚以上出す。";
+"rules.turn.text2" = "カードを出した後、デッキがある間は3枚まで補充する。";
+"rules.turn.text3" = "出せるカードがない場合は山全体を手札に取る。";
+
+"rules.zones.title" = "カードゾーン";
+"rules.zones.text1" = "まず手札から出す。手札がなくなったらテーブルカードへ。それもなくなったら裏向きカードを1枚ずつ開く。";
+"rules.zones.text2" = "裏向きカードが出せなかった場合、山とそのカードを手札に取る。";
+
+"rules.special.title"   = "特殊カード";
+"rules.special.text2"   = "山をリセット — どんなカードにも出せる。次のプレイヤーは何でも出せる。";
+"rules.special.text7"   = "低強制モード — 次のプレイヤーは7以下しか出せない。複数の7でモード継続。";
+"rules.special.text10"  = "山を燃やす — 全カードを取り除く。同じプレイヤーがもう一度出せる。";
+
+"rules.burn.title" = "山を燃やす";
+"rules.burn.text"  = "10を出すと山が燃える。山の上で四枚同ランクが揃っても燃える。燃えた後すぐに続けて出せる。";
+
+"rules.peek.title" = "山を確認する";
+"rules.peek.text1" = "捨て山をタップするといつでも上から下まで全カードが見られる。（設定で有効化）";
+"rules.peek.text2" = "山を取る価値があるかどうかを判断するために使おう。";
+
+"rules.win.title" = "勝利";
+"rules.win.text"  = "最後のカードを先に出したプレイヤーの勝ち。もう一方はシズマン。";
+
+"rules.dig.title" = "掘る（1ゲームに1回）";
+"rules.dig.text1" = "1ゲームに1回、手札から出しているときに「掘る」をタップすると、手札全体を捨て山と交換できる。（設定で有効化）";
+"rules.dig.text2" = "古い手札が新しい山になる（最も低いカードが一番上）。山のカードが新しい手札になる。掘った直後にターンが終わる。";
+
+// Settings
+"settings.title"             = "設定";
+"settings.done"              = "完了";
+"settings.section.gameplay"  = "ゲームプレイ";
+"settings.section.table_color" = "テーブルカラー";
+"settings.dig.title"         = "掘る";
+"settings.dig.subtitle"      = "1ゲームに1回、手札と捨て山を交換する。";
+"settings.peek.title"        = "山を確認する";
+"settings.peek.subtitle"     = "捨て山をタップして全カードを確認する。";
+"settings.haptics.title"     = "ハプティクス";
+"settings.haptics.subtitle"  = "カードを出したときやイベント時の振動フィードバック。";
+
+// Game over stats
+"gameover.burns"       = "バーン数";
+"gameover.best_streak" = "最長連続";
+"gameover.blind_luck"  = "ブラインドラック";
