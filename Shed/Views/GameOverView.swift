@@ -108,6 +108,7 @@ struct GameOverView: View {
                 .padding(.horizontal, 4)
             }
             .padding(32)
+            .iPadContentWidth()
             .scaleEffect(appeared ? 1 : 0.88)
             .opacity(appeared ? 1 : 0)
         }

@@ -38,7 +38,7 @@ struct SettingsView: View {
 
                     // MARK: - Table colour
                     section(L10n.Settings.sectionTableColor) {
-                        LazyVGrid(columns: Array(repeating: .init(.flexible()), count: 3), spacing: 12) {
+                        LazyVGrid(columns: Array(repeating: .init(.flexible()), count: Theme.isPad ? 4 : 3), spacing: 12) {
                             ForEach(FeltColor.allCases, id: \.rawValue) { color in
                                 colorSwatch(color)
                             }

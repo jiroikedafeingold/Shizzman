@@ -19,6 +19,7 @@ struct GameView: View {
                     navBar(title: L10n.Game.arrangeHand)
                     SwapView(vm: vm)
                 }
+                .iPadContentWidth()
                 .transition(.opacity)
 
             case .playing:
@@ -26,6 +27,7 @@ struct GameView: View {
                     playingNavBar
                     playingContent
                 }
+                .iPadContentWidth()
                 .transition(.opacity)
                 .onChange(of: vm.state.turn) { _, newTurn in
                     if newTurn == .player, case .playing = vm.state.phase {
@@ -188,7 +190,7 @@ struct GameView: View {
                 Color.black.opacity(0.5).ignoresSafeArea()
                 VStack(spacing: 16) {
                     CardView(card: card)
-                        .frame(width: Theme.cW * 1.8, height: Theme.cH * 1.8)
+                        .frame(width: Theme.cardW * 1.8, height: Theme.cardH * 1.8)
                         .transition(.scale(scale: 0.7).combined(with: .opacity))
 
                     Text(L10n.Msg.cantPlay)
@@ -221,7 +223,7 @@ struct GameView: View {
                     Text("🎉")
                         .font(.system(size: 48))
                     CardView(card: card)
-                        .frame(width: Theme.cW * 1.8, height: Theme.cH * 1.8)
+                        .frame(width: Theme.cardW * 1.8, height: Theme.cardH * 1.8)
                         .transition(.scale(scale: 0.7).combined(with: .opacity))
                     Text(L10n.Msg.blindWin)
                         .font(Theme.label(16))
@@ -341,14 +343,14 @@ struct GameView: View {
                         ForEach(0..<min(vm.state.ai.hand.count, 3), id: \.self) { i in
                             RoundedRectangle(cornerRadius: 4)
                                 .fill(Theme.cardBack)
-                                .frame(width: 22, height: 32)
+                                .frame(width: 22 * Theme.padScale, height: 32 * Theme.padScale)
                                 .overlay(RoundedRectangle(cornerRadius: 4)
                                     .strokeBorder(Color.white.opacity(0.1), lineWidth: 0.5))
                                 .offset(x: CGFloat(i) * 4, y: CGFloat(i) * -2)
                                 .cShadow()
                         }
                     }
-                    .frame(width: 30, height: 36)
+                    .frame(width: 30 * Theme.padScale, height: 36 * Theme.padScale)
                     Text(L10n.Game.handCount(vm.state.ai.hand.count))
                         .font(Theme.caption(14)).foregroundStyle(Theme.tertiary)
                         .fixedSize()
@@ -469,7 +471,7 @@ struct GameView: View {
                                 ForEach(1..<min(slot.count, 3), id: \.self) { depth in
                                     RoundedRectangle(cornerRadius: Theme.rSm)
                                         .fill(Theme.surface)
-                                        .frame(width: Theme.cW * 0.85, height: Theme.cH * 0.85)
+                                        .frame(width: Theme.cardW * 0.85, height: Theme.cardH * 0.85)
                                         .overlay(RoundedRectangle(cornerRadius: Theme.rSm)
                                             .strokeBorder(Theme.border, lineWidth: 0.5))
                                         .offset(x: CGFloat(depth) * 2, y: CGFloat(depth) * -2)
@@ -479,7 +481,7 @@ struct GameView: View {
                                     isSelected: groupSelected,
                                     isPlayable: active ? vm.isPlayable(topCard) : true
                                 )
-                                .frame(width: Theme.cW * 0.85, height: Theme.cH * 0.85)
+                                .frame(width: Theme.cardW * 0.85, height: Theme.cardH * 0.85)
                             }
                             .onTapGesture { if active { vm.toggleSelect(card: topCard) } }
                             .opacity(active ? 1 : 0.55)
@@ -524,7 +526,7 @@ struct GameView: View {
                         .padding(.horizontal, 4)
                         .padding(.vertical, 14)
                     }
-                    .frame(height: Theme.cH + 28)
+                    .frame(height: Theme.cardH + 28)
                     .onChange(of: vm.state.turn) { _, newTurn in
                         guard newTurn == .player else { return }
                         if let target = sortedHand.first(where: { vm.isPlayable($0) }) {
@@ -601,7 +603,7 @@ struct GameView: View {
                         faceDown: showFaceDown,
                         isPlayable: isActive
                     )
-                    .frame(width: Theme.cW * 0.7, height: Theme.cH * 0.7)
+                    .frame(width: Theme.cardW * 0.7, height: Theme.cardH * 0.7)
                 }
             }
             Text(label)

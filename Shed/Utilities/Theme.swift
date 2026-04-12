@@ -31,9 +31,25 @@ enum Theme {
     static let rSm: CGFloat = 6
     static let rMd: CGFloat = 12
     static let rLg: CGFloat = 18
+
+    /// Scale factor for iPad — returns 1.0 on iPhone, ~1.45 on iPad.
+    static var isPad: Bool { UIDevice.current.userInterfaceIdiom == .pad }
+    static var padScale: CGFloat { isPad ? 1.45 : 1.0 }
+
+    /// Card dimensions scaled for current device.
+    static var cardW: CGFloat { cW * padScale }
+    static var cardH: CGFloat { cH * padScale }
+
+    /// Maximum content width for iPad to prevent overly wide layouts.
+    static let maxContentWidth: CGFloat = 540
 }
 
 extension View {
     func cShadow() -> some View { shadow(color: .black.opacity(0.5), radius: 4, x: 0, y: 2) }
     func pShadow() -> some View { shadow(color: .black.opacity(0.28), radius: 8, x: 0, y: 4) }
+
+    /// Constrains content width on iPad while keeping it full-width on iPhone.
+    func iPadContentWidth() -> some View {
+        frame(maxWidth: Theme.isPad ? Theme.maxContentWidth : .infinity)
+    }
 }

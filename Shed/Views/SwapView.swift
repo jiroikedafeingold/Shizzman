@@ -141,6 +141,7 @@ struct SwapView: View {
             .padding(.horizontal, 24)
             .padding(.bottom, 32)
         }
+        .iPadContentWidth()
     }
 
     // MARK: - Slot view (shared by table cards and hand slots)
@@ -154,7 +155,7 @@ struct SwapView: View {
                 ForEach(1..<min(slot.count, 3), id: \.self) { depth in
                     RoundedRectangle(cornerRadius: Theme.rSm)
                         .fill(Theme.surface)
-                        .frame(width: Theme.cW, height: Theme.cH)
+                        .frame(width: Theme.cardW, height: Theme.cardH)
                         .overlay(
                             RoundedRectangle(cornerRadius: Theme.rSm)
                                 .strokeBorder(Theme.border, lineWidth: 0.5)
@@ -184,8 +185,8 @@ struct SwapView: View {
                     .offset(x: 6, y: -6)
             }
         }
-        .frame(width: Theme.cW + CGFloat(min(slot.count - 1, 2)) * 3,
-               height: Theme.cH + CGFloat(min(slot.count - 1, 2)) * 3)
+        .frame(width: Theme.cardW + CGFloat(min(slot.count - 1, 2)) * 3,
+               height: Theme.cardH + CGFloat(min(slot.count - 1, 2)) * 3)
     }
 
     // MARK: - Tap logic

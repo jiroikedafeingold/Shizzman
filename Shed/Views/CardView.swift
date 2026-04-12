@@ -5,7 +5,7 @@ struct CardView: View {
     var faceDown:    Bool = false
     var isSelected:  Bool = false
     var isPlayable:  Bool = true
-    var size:        CGSize = CGSize(width: Theme.cW, height: Theme.cH)
+    var size:        CGSize = CGSize(width: Theme.cardW, height: Theme.cardH)
 
     var body: some View {
         ZStack {
@@ -109,7 +109,7 @@ struct CardCountBadge: View {
         ZStack {
             RoundedRectangle(cornerRadius: 8)
                 .fill(Theme.cardBack)
-                .frame(width: Theme.cW * 0.7, height: Theme.cH * 0.5)
+                .frame(width: Theme.cardW * 0.7, height: Theme.cardH * 0.5)
             Text("\(count)")
                 .font(Theme.headline(18))
                 .foregroundStyle(Theme.secondary)

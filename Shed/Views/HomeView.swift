@@ -32,7 +32,7 @@ struct HomeView: View {
                     .padding(.bottom, 4)
 
                 Text("SHIZZMAN")
-                    .font(.system(size: 46, weight: .ultraLight, design: .rounded))
+                    .font(.system(size: 46 * Theme.padScale, weight: .ultraLight, design: .rounded))
                     .tracking(10)
                     .foregroundStyle(Theme.primary)
 
@@ -76,6 +76,7 @@ struct HomeView: View {
             }
             .padding(.bottom, 32)
         }
+        .iPadContentWidth()
         .overlay(alignment: .topTrailing) {
             Button { showRules = true } label: {
                 Image(systemName: "questionmark.circle")
@@ -124,17 +125,18 @@ struct HomeView: View {
     }
 
     private func fanCard(_ rank: String, suit: Suit, rotation: Double) -> some View {
-        ZStack {
+        let s = Theme.padScale
+        return ZStack {
             RoundedRectangle(cornerRadius: 6).fill(Theme.cardFace)
-                .frame(width: 42, height: 60)
+                .frame(width: 42 * s, height: 60 * s)
                 .shadow(color: .black.opacity(0.35), radius: 4, x: 0, y: 2)
             VStack(spacing: -2) {
-                Text(rank).font(.system(size: 13, weight: .bold, design: .rounded))
+                Text(rank).font(.system(size: 13 * s, weight: .bold, design: .rounded))
                     .foregroundStyle(suit.cardColor)
-                Text(suit.symbol).font(.system(size: 10))
+                Text(suit.symbol).font(.system(size: 10 * s))
                     .foregroundStyle(suit.cardColor)
             }
-            .offset(x: -7, y: -9)
+            .offset(x: -7 * s, y: -9 * s)
         }
         .rotationEffect(.degrees(rotation))
     }
@@ -148,11 +150,12 @@ struct HomeView: View {
     }
 
     private func specialCard(_ rank: String, color: Color, desc: String) -> some View {
-        VStack(spacing: 6) {
+        let s = Theme.padScale
+        return VStack(spacing: 6) {
             ZStack {
-                RoundedRectangle(cornerRadius: 5).fill(Theme.cardFace).frame(width: 34, height: 48)
+                RoundedRectangle(cornerRadius: 5).fill(Theme.cardFace).frame(width: 34 * s, height: 48 * s)
                     .cShadow()
-                Text(rank).font(.system(size: 13, weight: .bold)).foregroundStyle(color)
+                Text(rank).font(.system(size: 13 * s, weight: .bold)).foregroundStyle(color)
             }
             Text(desc).font(Theme.caption(13)).foregroundStyle(Theme.secondary)
         }

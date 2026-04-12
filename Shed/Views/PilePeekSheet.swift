@@ -30,7 +30,7 @@ struct PilePeekSheet: View {
             // Cards grid
             ScrollView {
                 LazyVGrid(
-                    columns: [GridItem(.adaptive(minimum: Theme.cW + 8), spacing: 10)],
+                    columns: [GridItem(.adaptive(minimum: Theme.cardW + 8), spacing: 10)],
                     spacing: 12
                 ) {
                     ForEach(Array(ordered.enumerated()), id: \.element.id) { index, card in

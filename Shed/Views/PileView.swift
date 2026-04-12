@@ -13,19 +13,19 @@ struct PileView: View {
                     if deckCount > 1 {
                         RoundedRectangle(cornerRadius: Theme.rSm)
                             .fill(Theme.cardBack.opacity(0.6))
-                            .frame(width: Theme.cW, height: Theme.cH)
+                            .frame(width: Theme.cardW, height: Theme.cardH)
                             .offset(x: -2, y: -2)
                     }
                     if deckCount > 0 {
                         RoundedRectangle(cornerRadius: Theme.rSm)
                             .fill(Theme.cardBack)
-                            .frame(width: Theme.cW, height: Theme.cH)
+                            .frame(width: Theme.cardW, height: Theme.cardH)
                             .overlay(RoundedRectangle(cornerRadius: Theme.rSm)
                                 .strokeBorder(Color.white.opacity(0.12), lineWidth: 0.5))
                     } else {
                         RoundedRectangle(cornerRadius: Theme.rSm)
                             .fill(Color.red.opacity(0.12))
-                            .frame(width: Theme.cW, height: Theme.cH)
+                            .frame(width: Theme.cardW, height: Theme.cardH)
                             .overlay(RoundedRectangle(cornerRadius: Theme.rSm)
                                 .strokeBorder(Color.red.opacity(0.55), style: StrokeStyle(lineWidth: 1.5, dash: [4,3])))
                             .overlay(
@@ -49,20 +49,20 @@ struct PileView: View {
                     if state.pile.count > 2 {
                         RoundedRectangle(cornerRadius: Theme.rSm)
                             .fill(Theme.cardFace.opacity(0.4))
-                            .frame(width: Theme.cW, height: Theme.cH)
+                            .frame(width: Theme.cardW, height: Theme.cardH)
                             .offset(x: -4, y: -4)
                     }
                     if state.pile.count > 1 {
                         RoundedRectangle(cornerRadius: Theme.rSm)
                             .fill(Theme.cardFace.opacity(0.7))
-                            .frame(width: Theme.cW, height: Theme.cH)
+                            .frame(width: Theme.cardW, height: Theme.cardH)
                             .offset(x: -2, y: -2)
                     }
 
                     if burnFlash {
                         RoundedRectangle(cornerRadius: Theme.rSm)
                             .fill(Theme.burn.opacity(0.35))
-                            .frame(width: Theme.cW, height: Theme.cH)
+                            .frame(width: Theme.cardW, height: Theme.cardH)
                             .overlay(Text("✕").font(.system(size: 32, weight: .ultraLight)).foregroundStyle(Theme.burn))
                             .transition(.opacity)
                     } else if let top = state.pileTop {
@@ -75,7 +75,7 @@ struct PileView: View {
                     } else {
                         RoundedRectangle(cornerRadius: Theme.rSm)
                             .fill(Theme.surface)
-                            .frame(width: Theme.cW, height: Theme.cH)
+                            .frame(width: Theme.cardW, height: Theme.cardH)
                             .overlay(
                                 RoundedRectangle(cornerRadius: Theme.rSm)
                                     .strokeBorder(Theme.border, style: StrokeStyle(lineWidth: 1, dash: [4,3]))
