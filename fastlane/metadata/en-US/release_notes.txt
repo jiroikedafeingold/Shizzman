@@ -1,0 +1,7 @@
+Shizzman now plays on iPad.
+
+- iPad support: the full game, sized to sit comfortably on the larger screen.
+- Cleaner layouts on iPhone, with better spacing around your hand and the pile.
+- Polish and fixes throughout.
+
+Thanks for playing!

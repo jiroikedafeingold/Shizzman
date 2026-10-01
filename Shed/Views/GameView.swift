@@ -1,9 +1,11 @@
+import StoreKit
 import SwiftUI
 
 struct GameView: View {
     @EnvironmentObject private var settings: SettingsStore
     @ObservedObject var vm: GameViewModel
     let onHome: () -> Void
+    @Environment(\.requestReview) private var requestReview
 
     @State private var showYourTurnFlash = false
     @State private var showPilePeek      = false
@@ -47,6 +49,14 @@ struct GameView: View {
                     onHome:    onHome
                 )
                 .transition(.opacity)
+                // After a win, let the confetti play, then ask for a rating if it's due.
+                .task {
+                    guard vm.wantsReviewRequest else { return }
+                    vm.reviewRequested()
+                    try? await Task.sleep(for: .seconds(2))
+                    guard !Task.isCancelled else { return }   // left the screen already
+                    requestReview()
+                }
             }
         }
         .animation(.easeInOut(duration: 0.3), value: {

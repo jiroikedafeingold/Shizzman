@@ -13,6 +13,33 @@ struct RoundStats {
     }
 }
 
+/// Decides when to ask for an App Store rating: after the player's 3rd win, then again
+/// at most once per app version and no sooner than 10 wins after the last ask.
+/// (StoreKit itself further caps the prompt at three showings a year.)
+enum ReviewPrompter {
+    private static let winsKey        = "review.wins"
+    private static let lastWinsKey    = "review.lastPromptWins"
+    private static let lastVersionKey = "review.lastPromptVersion"
+
+    /// Records a win and returns true if now is a good moment to ask for a review.
+    static func recordWin() -> Bool {
+        let defaults = UserDefaults.standard
+        let wins = defaults.integer(forKey: winsKey) + 1
+        defaults.set(wins, forKey: winsKey)
+
+        let version  = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String ?? ""
+        let lastWins = defaults.integer(forKey: lastWinsKey)
+        let neverAsked = lastWins == 0
+        guard wins >= 3,
+              neverAsked || (wins - lastWins >= 10 && defaults.string(forKey: lastVersionKey) != version)
+        else { return false }
+
+        defaults.set(wins, forKey: lastWinsKey)
+        defaults.set(version, forKey: lastVersionKey)
+        return true
+    }
+}
+
 @MainActor
 final class GameViewModel: ObservableObject {
 
@@ -28,6 +55,7 @@ final class GameViewModel: ObservableObject {
     @Published private(set) var stats:           RoundStats = RoundStats()
     @Published private(set) var blindReveal:     GameCard? = nil  // card shown briefly on failed flip
     @Published private(set) var winningBlindCard: GameCard? = nil // card shown briefly on winning blind flip
+    @Published private(set) var wantsReviewRequest: Bool = false // a win made now a good moment to ask for a rating
 
     // MARK: - Private
 
@@ -456,6 +484,12 @@ final class GameViewModel: ObservableObject {
         stopTimer()
         state.phase = .gameOver(winner: winner)
         if winner == .player { HapticManager.win() } else { HapticManager.lose() }
+        if winner == .player, ReviewPrompter.recordWin() { wantsReviewRequest = true }
+    }
+
+    /// Called by the view once it has shown the rating prompt.
+    func reviewRequested() {
+        wantsReviewRequest = false
     }
 
     // MARK: - AI turn
